@@ -1,3 +1,6 @@
+
+
+// This is a temporary thing, its just here for
 function moveTest() {
     ctx.fillStyle ="blue"
     ctx.fillRect(xPosition, yPosition, 100, 100)
@@ -11,6 +14,14 @@ function moveTest() {
         }
         if(yPosition >= HEIGHT) {
             ySpeed = -1;
+        }
+    }
+    if(xPosition <= 0 || yPosition <= 0) {
+        if (xPosition <= 0) {
+            xSpeed = 1;
+        }
+        if(yPosition <= 0) {
+            ySpeed = 1;
         }
     }
 }
