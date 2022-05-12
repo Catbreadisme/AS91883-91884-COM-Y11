@@ -1,18 +1,19 @@
-
+let xSize = 100
+let ySize = 100
 
 // This is a temporary thing, its just here for
 function moveTest() {
     ctx.fillStyle ="blue"
-    ctx.fillRect(xPosition, yPosition, 100, 100)
+    ctx.fillRect(xPosition, yPosition, xSize, ySize)
 
     xPosition = xPosition + xSpeed
     yPosition = yPosition + ySpeed
     
-    if(xPosition >= WIDTH || yPosition >= HEIGHT) {
-        if (xPosition >= WIDTH) {
+    if(xPosition >= WIDTH - xSize|| yPosition >= HEIGHT - ySize) {
+        if (xPosition >= WIDTH - xSize) {
             xSpeed = -1;
         }
-        if(yPosition >= HEIGHT) {
+        if(yPosition >= HEIGHT - ySize) {
             ySpeed = -1;
         }
     }
