@@ -1,8 +1,14 @@
 // This script controls the canvas
 
 
-const WIDTH = 600;
-const HEIGHT = 600;
+const WIDTH = 800;
+const HEIGHT = 800;
+
+const doc = document.getElementById("mainCanvas")
+
+console.log(doc)
+doc.setAttribute("width", WIDTH);
+doc.setAttribute("height", HEIGHT);
 
 
 var ctx;
@@ -17,7 +23,7 @@ let ySpeed = 1;
 window.onload = canvasStart
 
 function canvasStart() {
-    ctx = document.getElementById("mainCanvas").getContext("2d") // Get the canvas element
+    ctx = doc.getContext("2d") // Get the canvas element
 
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
 }
