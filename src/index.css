@@ -1,4 +1,9 @@
 
 #mainText {
-    color: aquamarine;
+    font-family: "PT Sans", sans-serif;
+    color: #B59DA4;
+}
+html
+{
+    background-color: #85756E;
 }
