@@ -13,9 +13,9 @@ doc.setAttribute("width", WIDTH);
 doc.setAttribute("height", HEIGHT);
 
 
-var ctx;
+var ctx; // Canvas context variable
 
-// Movement variables (temp)
+// Movement variables (temp), see input.js
 let xPosition = 0;
 let yPosition = 0;
 let xSpeed = 1;
