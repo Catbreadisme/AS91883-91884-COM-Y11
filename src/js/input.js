@@ -32,3 +32,8 @@ function moveTest() {
         }
     }
 }
+window.addEventListener("mousedown")
+
+function onClick()  {
+
+}
