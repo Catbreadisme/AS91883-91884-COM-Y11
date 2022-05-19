@@ -32,8 +32,20 @@ function moveTest() {
         }
     }
 }
-window.addEventListener("mousedown")
+window.addEventListener("mousedown", onClick())
+window.addEventListener("mouseup", onRelease())
+window.addEventListener("mousemove", mouseMovement())
 
-function onClick()  {
+function onClick() {
+
+}
+function mouseMovement() {
+    let mouseX
+    let mouseY
+
+    mouseX = mouseEvent.offsetX;
+    mouseY = mouseEvent.offsetY;
+}
+function onRelease() {
 
 }
