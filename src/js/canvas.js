@@ -37,6 +37,7 @@ function canvasUpdate() {
     ctx.fillStyle ="black"  // Set colour to black
     ctx.fillRect(0, 0, WIDTH, HEIGHT)   // Clear the canvas every frame
 
+    
+
     moveTest()  // Runs the movetest function, see input.js
-    onClick() // Runs the 
     }

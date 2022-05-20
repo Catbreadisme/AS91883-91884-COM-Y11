@@ -10,11 +10,11 @@ function moveTest() {
     ctx.fillRect(xPosition, yPosition, xSize, ySize) // Creates the square
 
     // Moves the square
-    xPosition = xPosition + xSpeed 
-    yPosition = yPosition + ySpeed
+    //xPosition = xPosition + xSpeed 
+    //yPosition = yPosition + ySpeed
     
     // Bounces the square along the bottom and right of the canvas
-    if(xPosition >= WIDTH - xSize|| yPosition >= HEIGHT - ySize) {
+    /* if(xPosition >= WIDTH - xSize|| yPosition >= HEIGHT - ySize) {
         if (xPosition >= WIDTH - xSize) {
             xSpeed = -1;
         }
@@ -30,22 +30,37 @@ function moveTest() {
         if(yPosition <= 0) {
             ySpeed = 1;
         }
+    } */
+
+    window.addEventListener("mousedown", onDown)
+    window.addEventListener("mouseup", onRelease)
+
+
+
+
+    function onDown(mouseEvent) {
+        let mouseX = 0
+        let mouseY = 0
+        let move = true
+        window.addEventListener("mousemove", mouseMovement)   
+        console.log(move)    
+        
+        
+        
     }
-}
-window.addEventListener("mousedown", onClick())
-window.addEventListener("mouseup", onRelease())
-window.addEventListener("mousemove", mouseMovement())
+    function mouseMovement(mouseEvent) {
+        mouseX = mouseEvent.pageX;
+        mouseY = mouseEvent.pageY;
+        xPosition = mouseX
+        yPosition = mouseY
+    }
+    function onRelease() {
+        move = false
+        window.removeEventListener("mousemove", mouseMovement)
+        console.log(move)
+    }
 
-function onClick() {
-
-}
-function mouseMovement() {
-    let mouseX
-    let mouseY
-
-    mouseX = mouseEvent.offsetX;
-    mouseY = mouseEvent.offsetY;
-}
-function onRelease() {
 
 }
+
+
