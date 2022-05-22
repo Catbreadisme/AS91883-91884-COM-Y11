@@ -4,6 +4,8 @@
 let xSize = 100 
 let ySize = 100
 
+
+
 // This is a temporary thing, its just here for
 function moveTest() {
     ctx.fillStyle ="blue" // Sets colour to blue
@@ -31,35 +33,36 @@ function moveTest() {
             ySpeed = 1;
         }
     } */
+    var mouseDown;
+    var mouseUp;
+
+    let mouseX;
+    let mouseY;
 
     window.addEventListener("mousedown", onDown)
-    window.addEventListener("mouseup", onRelease)
+    window.addEventListener("mouseup", onUp)
+    window.addEventListener("mousemove", mouseMovement)
+    
 
-
-
-
-    function onDown(mouseEvent) {
-        let mouseX = 0
-        let mouseY = 0
-        let move = true
-        window.addEventListener("mousemove", mouseMovement)   
-        console.log(move)    
-        
-        
-        
+    function onDown() {
+        while (mouseUp == false){
+            ctx.fillRect(mouseX, mouseY, xSize, ySize)
+        }
+            
     }
     function mouseMovement(mouseEvent) {
-        mouseX = mouseEvent.pageX;
-        mouseY = mouseEvent.pageY;
-        xPosition = mouseX
-        yPosition = mouseY
+        
+        mouseX = mouseEvent.offsetX;
+        mouseY = mouseEvent.offsetY;
+
+        //console.log("x " + mouseX, "y " + mouseY)
     }
-    function onRelease() {
-        move = false
-        window.removeEventListener("mousemove", mouseMovement)
-        console.log(move)
+    function onUp(mouseEvent){
+        mouseUp = true
     }
 
+    
+    
 
 }
 
