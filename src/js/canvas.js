@@ -31,13 +31,15 @@ function canvasStart() {
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
 }
 
+
 // Updates 60 times per seconds, see fps
 function canvasUpdate() {
 
-    ctx.fillStyle ="black"  // Set colour to black
-    ctx.fillRect(0, 0, WIDTH, HEIGHT)   // Clear the canvas every frame
+    ctx.clearRect(0, 0, WIDTH, HEIGHT)
 
-    
+    ctx.fillStyle ="blue" // Sets colour to blue
+    ctx.fillRect(xPosition, yPosition, xSize, ySize) // Creates the square
 
-    moveTest()  // Runs the movetest function, see input.js
+    moveTest();
+      // Runs the movetest function, see input.js
     }

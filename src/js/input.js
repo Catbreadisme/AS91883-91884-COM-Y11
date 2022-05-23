@@ -8,8 +8,7 @@ let ySize = 100
 
 // This is a temporary thing, its just here for
 function moveTest() {
-    ctx.fillStyle ="blue" // Sets colour to blue
-    ctx.fillRect(xPosition, yPosition, xSize, ySize) // Creates the square
+    
 
     // Moves the square
     //xPosition = xPosition + xSpeed 
@@ -33,34 +32,41 @@ function moveTest() {
             ySpeed = 1;
         }
     } */
-    var mouseDown;
-    var mouseUp;
+    let collision;
 
-    let mouseX;
-    let mouseY;
 
     window.addEventListener("mousedown", onDown)
-    window.addEventListener("mouseup", onUp)
-    window.addEventListener("mousemove", mouseMovement)
+    window.addEventListener("mousemove", collisionDetected)
     
 
-    function onDown() {
-        while (mouseUp == false){
-            ctx.fillRect(mouseX, mouseY, xSize, ySize)
+    function onDown(mouseEvent) {
+        if(collision) {
+            window.addEventListener("mouseup", onUp)
+            window.addEventListener("mousemove", mouseMovement)
         }
-            
     }
     function mouseMovement(mouseEvent) {
         
-        mouseX = mouseEvent.offsetX;
-        mouseY = mouseEvent.offsetY;
-
+        xPosition = mouseEvent.clientX;
+        yPosition = mouseEvent.clientY;
         //console.log("x " + mouseX, "y " + mouseY)
     }
-    function onUp(mouseEvent){
-        mouseUp = true
+    function onUp(){
+        window.removeEventListener("mouseup", onUp)
+        window.removeEventListener("mousemove", mouseMovement)
     }
 
+    function collisionDetected(mouseEvent){
+        if(mouseEvent.clientX >= xPosition && 
+            mouseEvent.clientY >= yPosition && 
+            mouseEvent.clientX <= xPosition + xSize &&
+            mouseEvent.clientY <= yPosition + ySize
+        ){
+            collision = true;
+        }else{
+            collision = false;
+        }
+    }
     
     
 
