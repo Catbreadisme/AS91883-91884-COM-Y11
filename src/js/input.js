@@ -33,42 +33,59 @@ function moveTest() {
         }
     } */
     let collision;
+    let mousePressed;
 
 
-    window.addEventListener("mousedown", onDown)
-    window.addEventListener("mousemove", collisionDetected)
+    window.addEventListener("mousedown", onDown, { once: true })
+    //window.addEventListener("mousemove", collisionDetected)
+    
+
+    
     
 
     function onDown(mouseEvent) {
-        if(collision) {
-            window.addEventListener("mouseup", onUp)
+        mousePressed = true       
+        if(collisionDetectedBool(mouseEvent)) {
+            window.addEventListener("mouseup", onUp, { once: true})
             window.addEventListener("mousemove", mouseMovement)
-        }
+        } 
     }
     function mouseMovement(mouseEvent) {
-        
-        xPosition = mouseEvent.clientX;
-        yPosition = mouseEvent.clientY;
+        if (mousePressed == true){
+        xPosition = mouseEvent.offsetX;
+        yPosition = mouseEvent.offsetY;
+        }
         //console.log("x " + mouseX, "y " + mouseY)
     }
     function onUp(){
-        window.removeEventListener("mouseup", onUp)
-        window.removeEventListener("mousemove", mouseMovement)
+        /* window.removeEventListener("mouseup", onUp)
+        window.removeEventListener("mousemove", mouseMovement) */
+        mousePressed = false;
+        
     }
 
-    function collisionDetected(mouseEvent){
-        if(mouseEvent.clientX >= xPosition && 
-            mouseEvent.clientY >= yPosition && 
-            mouseEvent.clientX <= xPosition + xSize &&
-            mouseEvent.clientY <= yPosition + ySize
+    /* function collisionDetectedOG(mouseEvent){
+        if(mouseEvent.offsetX >= xPosition && 
+            mouseEvent.offsetY >= yPosition && 
+            mouseEvent.offsetX <= xPosition + xSize &&
+            mouseEvent.offsetY <= yPosition + ySize
         ){
             collision = true;
         }else{
             collision = false;
         }
+    } */
+    function collisionDetectedBool(mouseEvent){
+        if(mouseEvent.offsetX >= xPosition && 
+            mouseEvent.offsetY >= yPosition && 
+            mouseEvent.offsetX <= xPosition + xSize &&
+            mouseEvent.offsetY <= yPosition + ySize
+        ){
+            return true;
+        }else{
+            return false;
+        }
     }
-    
-    
 
 }
 
