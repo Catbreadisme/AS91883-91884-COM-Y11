@@ -29,6 +29,8 @@ function canvasStart() {
     ctx = doc.getContext("2d") // Get the canvas element
 
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
+
+    moveStart() // Starts Movement Event Listners
 }
 
 
@@ -40,6 +42,7 @@ function canvasUpdate() {
     ctx.fillStyle ="blue" // Sets colour to blue
     ctx.fillRect(xPosition, yPosition, xSize, ySize) // Creates the square
 
-    moveTest();
+    
       // Runs the movetest function, see input.js
+      
     }
