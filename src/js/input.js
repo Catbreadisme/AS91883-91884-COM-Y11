@@ -4,6 +4,7 @@
 let xSize = 100 
 let ySize = 100
 
+
     function moveStart(){
         window.addEventListener("mousedown", onDown, {})
         window.addEventListener("mouseup", onUp, {})
@@ -14,20 +15,30 @@ let ySize = 100
 
     let mousePressed = false;
     let mouseMoveActive = false;   
+    let id;
+    
     
 
     function onDown(mouseEvent) {
-        mousePressed = true       
-        if(collisionDetectedBool(mouseEvent)) {
-            mouseMoveActive = true
+        id = -1;
+        mousePressed = true
+        for (pots = 0; pots < plantPots.length; pots++){
+            id = pots;
+            if(collisionDetectedBool(mouseEvent)) {
+                mouseMoveActive = true
+                
+                console.log(id)
+            }
         }
-        offsets.x = mouseEvent.offsetX - xPosition
-        offsets.y = mouseEvent.offsetY - yPosition
+        if (id >= 0){
+        offsets.x = mouseEvent.offsetX - plantPots[id].xPosition
+        offsets.y = mouseEvent.offsetY - plantPots[id].yPosition
+        }
     }
     function mouseMovement(mouseEvent) {
         if (mousePressed && mouseMoveActive){
-        xPosition = mouseEvent.offsetX - offsets.x;
-        yPosition = mouseEvent.offsetY - offsets.y;
+        plantPots[id].xPosition = mouseEvent.offsetX - offsets.x;
+        plantPots[id].yPosition = mouseEvent.offsetY - offsets.y;
         }
         //console.log("x " + mouseX, "y " + mouseY)
     }
@@ -50,15 +61,16 @@ let ySize = 100
         }
     } */
     function collisionDetectedBool(mouseEvent){
-        if(mouseEvent.offsetX >= xPosition && 
-            mouseEvent.offsetY >= yPosition && 
-            mouseEvent.offsetX <= xPosition + xSize &&
-            mouseEvent.offsetY <= yPosition + ySize
+        console.log(id)
+        if(mouseEvent.offsetX >= plantPots[id].xPosition && 
+            mouseEvent.offsetY >= plantPots[id].yPosition && 
+            mouseEvent.offsetX <= plantPots[id].xPosition + xSize &&
+            mouseEvent.offsetY <= plantPots[id].yPosition + ySize
+            && plantPots[id].isDraggable
         ){
             return true;
         }else{
             return false;
         }
     }
-
 

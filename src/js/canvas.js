@@ -4,6 +4,9 @@
 const WIDTH = 800;
 const HEIGHT = 800;
 
+
+
+
 // Get the canvas element from html
 const doc = document.getElementById("mainCanvas")
 
@@ -12,7 +15,6 @@ console.log(doc)
 doc.setAttribute("width", WIDTH); 
 doc.setAttribute("height", HEIGHT);
 
-
 var ctx; // Canvas context variable
 
 // Movement variables (temp), see input.js
@@ -20,9 +22,25 @@ let xPosition = 0;
 let yPosition = 0;
 let xSpeed = 1;
 let ySpeed = 1;
+let pots;
+
+
 
 // Start the canvas
 window.onload = canvasStart
+
+class plantPot {
+  constructor(xPosition, yPosition, isDraggable){
+    this.xPosition = xPosition
+    this.yPosition = yPosition
+    this.draggable = isDraggable
+  }
+}
+let pot1 = new plantPot(0,0, true)
+let pot2 = new plantPot(0, 150, true)
+let pot3 = new plantPot(150, 0, true)
+
+let plantPots = [pot1, pot2, pot3]
 
 
 function canvasStart() {
@@ -31,6 +49,9 @@ function canvasStart() {
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
 
     moveStart() // Starts Movement Event Listners
+    for (pots = 0; pots < plantPots.length; pots++){
+      console.log("Start positions ", "X", plantPots[pots].xPosition, "Y", plantPots[pots].yPosition)
+    }
 }
 
 
@@ -40,8 +61,10 @@ function canvasUpdate() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT)
 
     ctx.fillStyle ="blue" // Sets colour to blue
-    ctx.fillRect(xPosition, yPosition, xSize, ySize) // Creates the square
-
+    //ctx.fillRect(xPosition, yPosition, xSize, ySize) // Creates the square
+    for (pots = 0; pots < plantPots.length; pots++){
+      ctx.fillRect(plantPots[pots].xPosition, plantPots[pots].yPosition, xSize, ySize)
+    }
     
       // Runs the movetest function, see input.js
       
