@@ -1,6 +1,6 @@
 #mainText {
     text-align: center;
-    font-family: "PT Sans", sans-serif;
+    font-family: 'Inter', sans-serif;
     color: #B59DA4;
     margin-top: 6vh;
     margin-bottom: 2vh;
@@ -19,9 +19,4 @@
 html
 {
     background-color: #85756E;
-}
-
-#mainCanvas
-{
-    
 }
