@@ -39,8 +39,10 @@ class plantPot {
 let pot1 = new plantPot(0,0, true)
 let pot2 = new plantPot(0, 150, true)
 let pot3 = new plantPot(150, 0, true)
+let pot4 = new plantPot(200, 200, true)
+let pot5 = new plantPot(210, 290, true)
 
-let plantPots = [pot1, pot2, pot3]
+let plantPots = [pot1, pot2, pot3, pot4, pot5]
 
 
 function canvasStart() {
@@ -60,11 +62,20 @@ function canvasUpdate() {
 
     ctx.clearRect(0, 0, WIDTH, HEIGHT)
 
-    ctx.fillStyle ="blue" // Sets colour to blue
+    ctx.fillStyle = "yellow"
+    ctx.fillRect(plantPots[3].xPosition, plantPots[3].yPosition, xSize, ySize)
+
+    ctx.fillStyle = "black"
+    ctx.fillRect(plantPots[4].xPosition, plantPots[4].yPosition, xSize, ySize)
+
+    ctx.fillStyle ="lightblue" // Sets colour to blue
     //ctx.fillRect(xPosition, yPosition, xSize, ySize) // Creates the square
-    for (pots = 0; pots < plantPots.length; pots++){
-      ctx.fillRect(plantPots[pots].xPosition, plantPots[pots].yPosition, xSize, ySize)
+    
+    for (let i = 0; i < 3; i++){
+      ctx.fillRect(plantPots[i].xPosition, plantPots[i].yPosition, xSize, ySize)
     }
+   
+    
     
       // Runs the movetest function, see input.js
       
