@@ -6,9 +6,10 @@ let ySize = 100
 
 
     function moveStart(){
+        window.addEventListener("mousemove", mouseMovement, {})
         window.addEventListener("mousedown", onDown, {})
         window.addEventListener("mouseup", onUp, {})
-        window.addEventListener("mousemove", mouseMovement, {})
+        
     }   
 
     let offsets = {}
@@ -20,28 +21,38 @@ let ySize = 100
     
 
     function onDown(mouseEvent) {
-        id = -1;
         mousePressed = true
-        for (pots = 0; pots < plantPots.length; pots++){
-            id = pots;
-            if(collisionDetectedBool(mouseEvent)) {
+            if(collisionDetectedBool(mouseEvent, id)) {
                 mouseMoveActive = true
                 
                 console.log(id)
+                offsets.x = mouseEvent.offsetX - plantPots[id].xPosition
+                offsets.y = mouseEvent.offsetY - plantPots[id].yPosition
+            }
+           
+    }
+
+    function mouseMovement(mouseEvent) {
+        //console.log(plantPots.length)
+        for (let i = 0; i < plantPots.length;){
+            //console.log(i)
+            //mouseOffsets(mouseEvent, i, {once: true})
+            
+            if(collisionDetectedBool(mouseEvent, i)){
+                id = i;
+                console.log(id)
+            }
+            else{
+                i++
             }
         }
-        if (id >= 0){
-        offsets.x = mouseEvent.offsetX - plantPots[id].xPosition
-        offsets.y = mouseEvent.offsetY - plantPots[id].yPosition
-        }
-    }
-    function mouseMovement(mouseEvent) {
         if (mousePressed && mouseMoveActive){
         plantPots[id].xPosition = mouseEvent.offsetX - offsets.x;
         plantPots[id].yPosition = mouseEvent.offsetY - offsets.y;
         }
         //console.log("x " + mouseX, "y " + mouseY)
     }
+    
     function onUp(){
         /* window.removeEventListener("mouseup", onUp)
         window.removeEventListener("mousemove", mouseMovement) */
@@ -60,17 +71,23 @@ let ySize = 100
             collision = false;
         }
     } */
-    function collisionDetectedBool(mouseEvent){
-        console.log(id)
-        if(mouseEvent.offsetX >= plantPots[id].xPosition && 
-            mouseEvent.offsetY >= plantPots[id].yPosition && 
-            mouseEvent.offsetX <= plantPots[id].xPosition + xSize &&
-            mouseEvent.offsetY <= plantPots[id].yPosition + ySize
-            && plantPots[id].isDraggable
+    function collisionDetectedBool(mouseEvent, i){
+        console.log(i)
+        if(mouseEvent.offsetX >= plantPots[i].xPosition && 
+            mouseEvent.offsetY >= plantPots[i].yPosition && 
+            mouseEvent.offsetX <= plantPots[i].xPosition + xSize &&
+            mouseEvent.offsetY <= plantPots[i].yPosition + ySize
+            && plantPots[i].isDraggable
         ){
             return true;
         }else{
             return false;
         }
+    }
+
+    function mouseOffsets(mouseEvent, i){
+        offsets.x = mouseEvent.offsetX - plantPots[i].xPosition
+        offsets.y = mouseEvent.offsetY - plantPots[i].yPosition
+        //console.log(offsets.x, offsets.y)
     }
 
