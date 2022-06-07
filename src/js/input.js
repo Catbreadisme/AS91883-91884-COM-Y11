@@ -49,6 +49,7 @@ let ySize = 100
         if (mousePressed && mouseMoveActive && objectSelected){
         plantPots[id].xPosition = mouseEvent.offsetX - offsets.x; // Moves the pot on the x axis
         plantPots[id].yPosition = mouseEvent.offsetY - offsets.y; // Moves the pot on the y axis
+        doc.style.cursor = 'grabbing'; // Changes cursor to be the grabbing hand
         }
     }
     
@@ -57,12 +58,13 @@ let ySize = 100
         mousePressed = false; // Mouse is released
         mouseMoveActive = false; // Object no longer moves
         objectSelected = false; // Object is no longer selected
+        doc.style.cursor = 'default'; // Sets cursor back to default
     }
 
     // Called when mouse is down, and checks for object collision
     function objectDetectedBool(mouseEvent, i) {
         if(mouseEvent.offsetX >= plantPots[i].xPosition && 
-            mouseEvent.offsetY >= plantPots[i].yPosition && 
+            mouseEvent.offsetY >= plantPots[i].yPosition + 20 && 
             mouseEvent.offsetX <= plantPots[i].xPosition + xSize &&
             mouseEvent.offsetY <= plantPots[i].yPosition + ySize) // Collision code for the objects
             {

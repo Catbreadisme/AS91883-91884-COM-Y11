@@ -87,6 +87,9 @@ function canvasUpdate() {
     
     for (let i = 0; i < 3; i++){
       ctx.drawImage(plantPots[i].image, plantPots[i].xPosition, plantPots[i].yPosition, xSize, ySize)
+
+      //ctx.strokeStyle = "rgb(0,255,0)"
+      //ctx.strokeRect(plantPots[i].xPosition, plantPots[i].yPosition +20, xSize, ySize -20);
     }
    
     
