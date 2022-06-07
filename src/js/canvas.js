@@ -29,20 +29,32 @@ let pots;
 // Start the canvas
 window.onload = canvasStart
 
+
 class plantPot {
-  constructor(xPosition, yPosition, isDraggable){
+  constructor(xPosition, yPosition, isDraggable, image){
     this.xPosition = xPosition
     this.yPosition = yPosition
     this.draggable = isDraggable
+    this.image = image
   }
 }
-let pot1 = new plantPot(0,0, true)
-let pot2 = new plantPot(0, 150, true)
-let pot3 = new plantPot(150, 0, true)
-let pot4 = new plantPot(200, 200, true)
-let pot5 = new plantPot(210, 290, true)
+
+
+
+let pot1 = new plantPot(0, 0, true, new Image)
+let pot2 = new plantPot(0, 150, true, new Image)
+let pot3 = new plantPot(150, 0, true, new Image)
+let pot4 = new plantPot(200, 200, true, new Image)
+let pot5 = new plantPot(210, 290, true, new Image)
 
 let plantPots = [pot1, pot2, pot3, pot4, pot5]
+
+plantPots[3].image.src = 'images/placeholder.png'
+plantPots[0].image.src = 'images/placeholder.png'
+plantPots[1].image.src = 'images/placeholder.png'
+plantPots[2].image.src = 'images/placeholder.png'
+
+//pot1Image = new Image
 
 
 function canvasStart() {
@@ -54,6 +66,9 @@ function canvasStart() {
     for (pots = 0; pots < plantPots.length; pots++){
       console.log("Start positions ", "X", plantPots[pots].xPosition, "Y", plantPots[pots].yPosition)
     }
+
+    
+    
 }
 
 
@@ -61,9 +76,8 @@ function canvasStart() {
 function canvasUpdate() {
 
     ctx.clearRect(0, 0, WIDTH, HEIGHT)
-
-    ctx.fillStyle = "yellow"
-    ctx.fillRect(plantPots[3].xPosition, plantPots[3].yPosition, xSize, ySize)
+    
+    ctx.drawImage(plantPots[3].image, plantPots[3].xPosition, plantPots[3].yPosition, xSize, ySize)
 
     ctx.fillStyle = "black"
     ctx.fillRect(plantPots[4].xPosition, plantPots[4].yPosition, xSize, ySize)
@@ -72,7 +86,7 @@ function canvasUpdate() {
     //ctx.fillRect(xPosition, yPosition, xSize, ySize) // Creates the square
     
     for (let i = 0; i < 3; i++){
-      ctx.fillRect(plantPots[i].xPosition, plantPots[i].yPosition, xSize, ySize)
+      ctx.drawImage(plantPots[i].image, plantPots[i].xPosition, plantPots[i].yPosition, xSize, ySize)
     }
    
     
