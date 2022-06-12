@@ -24,7 +24,7 @@ let ySize = 100
     let id;                         // Stores which object is currently selected
     let seedId = false
     let drawSeed = false
-    let hotBarSlot = -1
+    let hotBarSlot = 1
     let tempvar = true
     
     // Called when the mouse is clicked
@@ -94,15 +94,24 @@ let ySize = 100
         }
     }
     function keyDown(keyEvent) {
+        hotBarSlots[hotBarSlot].selected = false
+        hotBarSlots[hotBarSlot].colour = '#000000'
         let key = keyEvent.key;
         console.log(key)
+        
+        
+        
         hotBarSlot = key
+        //hotBarSlot = hotBarSlot -1
+        hotBar()
     }
 
     function hotBar() {
-        if (hotBarSlot >= 1 && hotBarSlot <= 9){
+        if (hotBarSlot >= 0 && hotBarSlot <= 1){
             hotBarSlots[hotBarSlot].selected = true
+            console.log(hotBarSlots[hotBarSlot])
             if (hotBarSlots[hotBarSlot].selected){
+                console.log(hotBarSlots[hotBarSlot])
                 hotBarSlots[hotBarSlot].colour = '#979998'
             }
         }

@@ -115,11 +115,13 @@ function canvasUpdate() {
       //ctx.strokeStyle = "rgb(0,255,0)"
       //ctx.strokeRect(plantPots[i].xPosition, plantPots[i].yPosition +20, xSize, ySize -20);
     }
-    for (let i = 0; 0 < 3; i++){
+    for (let i = 0; i < 2; i++){
+      //console.log(hotBarSlots[i])
+      //console.log(i)
       ctx.fillStyle = hotBarSlots[i].colour
       ctx.fillRect(hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
     }
-   
+    
     
     
       // Runs the movetest function, see input.js
