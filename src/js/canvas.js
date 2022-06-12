@@ -23,6 +23,7 @@ let yPosition = 0;
 let xSpeed = 1;
 let ySpeed = 1;
 let pots;
+let gameActive;
 
 
 
@@ -31,21 +32,38 @@ window.onload = canvasStart
 
 
 class plantPot {
-  constructor(xPosition, yPosition, isDraggable, image){
+  constructor(xPosition, yPosition, isDraggable){
     this.xPosition = xPosition
     this.yPosition = yPosition
     this.draggable = isDraggable
-    this.image = image
+    this.image = new Image
   }
 }
 
+class hotBarClass {
+    constructor(hotBarSlot, xPos/* , item */){
+      this.hotBarSlot = hotBarSlot
+      //this.item = item
+      this.selected = false
+      this.colour = '#000000'
+      this.xSize = 20
+      this.ySize = 20
+      this.xPos = xPos
+      this.yPos = 780
+    }
 
+}
 
-let pot1 = new plantPot(0, 0, true, new Image)
-let pot2 = new plantPot(0, 150, true, new Image)
-let pot3 = new plantPot(150, 0, true, new Image)
-let pot4 = new plantPot(200, 200, true, new Image)
-let pot5 = new plantPot(210, 290, true, new Image)
+let hotBarSlot1 = new hotBarClass(1, 60)
+let hotBarSlot2 = new hotBarClass(2, 80)
+
+let hotBarSlots = [hotBarSlot1, hotBarSlot2]
+
+let pot1 = new plantPot(0, 0, true)
+let pot2 = new plantPot(0, 150, true)
+let pot3 = new plantPot(150, 0, true)
+let pot4 = new plantPot(200, 200, true)
+let pot5 = new plantPot(210, 290, true)
 
 let plantPots = [pot1, pot2, pot3, pot4, pot5]
 
@@ -54,11 +72,15 @@ plantPots[0].image.src = 'images/placeholder.png'
 plantPots[1].image.src = 'images/placeholder.png'
 plantPots[2].image.src = 'images/placeholder.png'
 
+let tempImg = new Image;
+tempImg.src = 'images/test.png'
+
 //pot1Image = new Image
 
 
 function canvasStart() {
     ctx = doc.getContext("2d") // Get the canvas element
+    gameActive = true
 
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
 
@@ -76,20 +98,26 @@ function canvasStart() {
 function canvasUpdate() {
 
     ctx.clearRect(0, 0, WIDTH, HEIGHT)
-    
-    ctx.drawImage(plantPots[3].image, plantPots[3].xPosition, plantPots[3].yPosition, xSize, ySize)
 
     ctx.fillStyle = "black"
     ctx.fillRect(plantPots[4].xPosition, plantPots[4].yPosition, xSize, ySize)
 
     ctx.fillStyle ="lightblue" // Sets colour to blue
     //ctx.fillRect(xPosition, yPosition, xSize, ySize) // Creates the square
+
+    if(drawSeed){
+      ctx.drawImage(tempImg, plantPots[seedId].xPosition, plantPots[seedId].yPosition, xSize, ySize)
+    }
     
-    for (let i = 0; i < 3; i++){
+    for (let i = 0; i < 4; i++){
       ctx.drawImage(plantPots[i].image, plantPots[i].xPosition, plantPots[i].yPosition, xSize, ySize)
 
       //ctx.strokeStyle = "rgb(0,255,0)"
       //ctx.strokeRect(plantPots[i].xPosition, plantPots[i].yPosition +20, xSize, ySize -20);
+    }
+    for (let i = 0; 0 < 3; i++){
+      ctx.fillStyle = hotBarSlots[i].colour
+      ctx.fillRect(hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
     }
    
     

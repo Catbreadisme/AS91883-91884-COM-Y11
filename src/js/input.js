@@ -4,12 +4,14 @@
 let xSize = 100 
 let ySize = 100
 
+
+
     // Starts the event listners
     function moveStart(){
         window.addEventListener("mousemove", mouseMovement, {})
         window.addEventListener("mousedown", onDown, {})
         window.addEventListener("mouseup", onUp, {})
-        
+        window.addEventListener("keydown", keyDown)
     }   
 
     // Offsets Object
@@ -20,7 +22,10 @@ let ySize = 100
     let mouseMoveActive = false;    // Variable that shows if the object can be moved
     let objectSelected = false;     // Variable that shows if an object is selected
     let id;                         // Stores which object is currently selected
-    
+    let seedId = false
+    let drawSeed = false
+    let hotBarSlot = -1
+    let tempvar = true
     
     // Called when the mouse is clicked
     function onDown(mouseEvent) {
@@ -37,6 +42,12 @@ let ySize = 100
                 offsets.y = mouseEvent.offsetY - plantPots[id].yPosition // Creates an offset on the y, This removes weird snapping
 
                 mouseMoveActive = true // Sets to true to show that the object can now move
+
+                if(seedPacketSelected){
+                    seedId = i
+                    drawSeed = true
+                    
+                }
             }
         }
         
@@ -73,4 +84,29 @@ let ySize = 100
                 return false; // return false if no collision
             }
     }
+    function seedPacketSelected(){
+        if(tempvar)
+        {
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    function keyDown(keyEvent) {
+        let key = keyEvent.key;
+        console.log(key)
+        hotBarSlot = key
+    }
+
+    function hotBar() {
+        if (hotBarSlot >= 1 && hotBarSlot <= 9){
+            hotBarSlots[hotBarSlot].selected = true
+            if (hotBarSlots[hotBarSlot].selected){
+                hotBarSlots[hotBarSlot].colour = '#979998'
+            }
+        }
+
+    }
+
 
