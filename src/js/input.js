@@ -94,16 +94,24 @@ let ySize = 100
         }
     }
     function keyDown(keyEvent) {
-        hotBarSlots[hotBarSlot].selected = false
-        hotBarSlots[hotBarSlot].colour = '#000000'
         let key = keyEvent.key;
+        
+        if(key >=0 && key <= 1){
+            hotBarSlots[hotBarSlot].selected = false
+            hotBarSlots[hotBarSlot].colour = '#000000'
+
+
+            hotBarSlot = key
+            //hotBarSlot = hotBarSlot -1
+            hotBar()
+        }
+        
+        
         console.log(key)
         
         
         
-        hotBarSlot = key
-        //hotBarSlot = hotBarSlot -1
-        hotBar()
+        
     }
 
     function hotBar() {

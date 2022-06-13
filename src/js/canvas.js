@@ -46,16 +46,16 @@ class hotBarClass {
       //this.item = item
       this.selected = false
       this.colour = '#000000'
-      this.xSize = 20
-      this.ySize = 20
+      this.xSize = 50
+      this.ySize = 50
       this.xPos = xPos
-      this.yPos = 780
+      this.yPos = 750
     }
 
 }
 
-let hotBarSlot1 = new hotBarClass(1, 60)
-let hotBarSlot2 = new hotBarClass(2, 80)
+let hotBarSlot1 = new hotBarClass(1, 50)
+let hotBarSlot2 = new hotBarClass(2, 100)
 
 let hotBarSlots = [hotBarSlot1, hotBarSlot2]
 
