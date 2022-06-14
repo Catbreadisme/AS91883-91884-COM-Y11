@@ -48,6 +48,9 @@ let ySize = 100
                     drawSeed = true
                     
                 }
+                else{
+
+                }
             }
         }
         
@@ -85,7 +88,7 @@ let ySize = 100
             }
     }
     function seedPacketSelected(){
-        if(tempvar)
+        if(hotBarSlots[hotBarSlot].item == 'Seed Packet')
         {
             return true
         }
@@ -96,18 +99,20 @@ let ySize = 100
     function keyDown(keyEvent) {
         let key = keyEvent.key;
         
-        if(key >=0 && key <= 1){
+        if(key >=1 && key <= 9){
             hotBarSlots[hotBarSlot].selected = false
             hotBarSlots[hotBarSlot].colour = '#000000'
 
 
-            hotBarSlot = key
+            hotBarSlot = key -1
+            //console.log(hotBarSlot)
+            hotBarSlotKey = key
             //hotBarSlot = hotBarSlot -1
             hotBar()
         }
         
         
-        console.log(key)
+        //console.log(key)
         
         
         
@@ -115,15 +120,23 @@ let ySize = 100
     }
 
     function hotBar() {
-        if (hotBarSlot >= 0 && hotBarSlot <= 1){
+        if (hotBarSlotKey >= 1 && hotBarSlotKey <= hotBarSlots.length){
             hotBarSlots[hotBarSlot].selected = true
-            console.log(hotBarSlots[hotBarSlot])
+            //console.log(hotBarSlots[hotBarSlot])
             if (hotBarSlots[hotBarSlot].selected){
-                console.log(hotBarSlots[hotBarSlot])
+                //console.log(hotBarSlots[hotBarSlot])
                 hotBarSlots[hotBarSlot].colour = '#979998'
+                //hotBarSlots[hotBarSlot].item = checkItem()
+                console.log(hotBarSlots[hotBarSlot].item)
             }
         }
 
     }
+    /* function checkItem(){
+        if(hotBarSlotKey == 1){
+            return 'Plant Seed'
+        }
+        
+    } */
 
 

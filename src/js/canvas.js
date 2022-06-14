@@ -50,14 +50,24 @@ class hotBarClass {
       this.ySize = 50
       this.xPos = xPos
       this.yPos = 750
+      this.item = 'Empty'
     }
+
+    
 
 }
 
 let hotBarSlot1 = new hotBarClass(1, 50)
 let hotBarSlot2 = new hotBarClass(2, 100)
+let hotBarSlot3 = new hotBarClass(3, 150)
+let hotBarSlot4 = new hotBarClass(4, 200)
+let hotBarSlot5 = new hotBarClass(5, 250)
+let hotBarSlot6 = new hotBarClass(6, 300)
+let hotBarSlot7 = new hotBarClass(7, 350)
+let hotBarSlot8 = new hotBarClass(8, 400)
+let hotBarSlot9 = new hotBarClass(9, 450)
 
-let hotBarSlots = [hotBarSlot1, hotBarSlot2]
+let hotBarSlots = [hotBarSlot1, hotBarSlot2, hotBarSlot3, hotBarSlot4, hotBarSlot5, hotBarSlot6, hotBarSlot7, hotBarSlot8, hotBarSlot9]
 
 let pot1 = new plantPot(0, 0, true)
 let pot2 = new plantPot(0, 150, true)
@@ -81,7 +91,16 @@ tempImg.src = 'images/test.png'
 function canvasStart() {
     ctx = doc.getContext("2d") // Get the canvas element
     gameActive = true
-
+    //window.open('json/inventory.json')
+    
+    
+    hotBarSlots[1].item = localStorage.getItem("storedItem2")
+    hotBarSlots[2].item = localStorage.getItem("storedItem3")
+    hotBarSlots[3].item = localStorage.getItem("storedItem4")
+    hotBarSlots[4].item = localStorage.getItem("storedItem5")
+    hotBarSlots[5].item = localStorage.getItem("storedItem6")
+    
+    
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
 
     moveStart() // Starts Movement Event Listners
@@ -89,14 +108,14 @@ function canvasStart() {
       console.log("Start positions ", "X", plantPots[pots].xPosition, "Y", plantPots[pots].yPosition)
     }
 
-    
+    //console.log(ho)
     
 }
 
 
 // Updates 60 times per seconds, see fps
 function canvasUpdate() {
-
+  
     ctx.clearRect(0, 0, WIDTH, HEIGHT)
 
     ctx.fillStyle = "black"
@@ -115,7 +134,7 @@ function canvasUpdate() {
       //ctx.strokeStyle = "rgb(0,255,0)"
       //ctx.strokeRect(plantPots[i].xPosition, plantPots[i].yPosition +20, xSize, ySize -20);
     }
-    for (let i = 0; i < 2; i++){
+    for (let i = 0; i < 9; i++){
       //console.log(hotBarSlots[i])
       //console.log(i)
       ctx.fillStyle = hotBarSlots[i].colour
@@ -125,5 +144,4 @@ function canvasUpdate() {
     
     
       // Runs the movetest function, see input.js
-      
     }
