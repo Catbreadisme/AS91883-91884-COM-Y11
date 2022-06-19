@@ -37,6 +37,8 @@ class plantPot {
     this.yPosition = yPosition
     this.draggable = isDraggable
     this.image = new Image
+    this.seedPlanted = false
+    this.seedInPot = 'None'
   }
 }
 
@@ -46,26 +48,28 @@ class hotBarClass {
       //this.item = item
       this.selected = false
       this.colour = '#000000'
-      this.xSize = 50
-      this.ySize = 50
+      this.xSize = 80
+      this.ySize = 80
       this.xPos = xPos
-      this.yPos = 750
+      this.yPos = 720
       this.item = 'Empty'
+      this.itemType = 'Empty'
+      this.hasItem = false
     }
 
     
 
 }
 
-let hotBarSlot1 = new hotBarClass(1, 50)
-let hotBarSlot2 = new hotBarClass(2, 100)
-let hotBarSlot3 = new hotBarClass(3, 150)
-let hotBarSlot4 = new hotBarClass(4, 200)
-let hotBarSlot5 = new hotBarClass(5, 250)
-let hotBarSlot6 = new hotBarClass(6, 300)
-let hotBarSlot7 = new hotBarClass(7, 350)
-let hotBarSlot8 = new hotBarClass(8, 400)
-let hotBarSlot9 = new hotBarClass(9, 450)
+let hotBarSlot1 = new hotBarClass(1, 40)
+let hotBarSlot2 = new hotBarClass(2, 120)
+let hotBarSlot3 = new hotBarClass(3, 200)
+let hotBarSlot4 = new hotBarClass(4, 280)
+let hotBarSlot5 = new hotBarClass(5, 360)
+let hotBarSlot6 = new hotBarClass(6, 440)
+let hotBarSlot7 = new hotBarClass(7, 520)
+let hotBarSlot8 = new hotBarClass(8, 600)
+let hotBarSlot9 = new hotBarClass(9, 680)
 
 let hotBarSlots = [hotBarSlot1, hotBarSlot2, hotBarSlot3, hotBarSlot4, hotBarSlot5, hotBarSlot6, hotBarSlot7, hotBarSlot8, hotBarSlot9]
 
@@ -85,13 +89,17 @@ plantPots[2].image.src = 'images/placeholder.png'
 let tempImg = new Image;
 tempImg.src = 'images/test.png'
 
-//pot1Image = new Image
+let hotBarImage = new Image;
+hotBarImage.src = 'images/HotbarSlot.png'
+
+let itemTypes = ['Seed Packet', 'Watering Can']
+
 
 
 function canvasStart() {
     ctx = doc.getContext("2d") // Get the canvas element
     gameActive = true
-    //window.open('json/inventory.json')
+    
     
     
     hotBarSlots[1].item = localStorage.getItem("storedItem2")
@@ -99,7 +107,10 @@ function canvasStart() {
     hotBarSlots[3].item = localStorage.getItem("storedItem4")
     hotBarSlots[4].item = localStorage.getItem("storedItem5")
     hotBarSlots[5].item = localStorage.getItem("storedItem6")
-    
+
+    hotBarSlots[1].itemType = itemTypes[0]
+    hotBarSlots[1].item = 'Tomato Seed'
+    hotBarSlots[1].hasItem = true
     
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
 
@@ -120,13 +131,11 @@ function canvasUpdate() {
 
     ctx.fillStyle = "black"
     ctx.fillRect(plantPots[4].xPosition, plantPots[4].yPosition, xSize, ySize)
+    
+    //if(){
 
-    ctx.fillStyle ="lightblue" // Sets colour to blue
-    //ctx.fillRect(xPosition, yPosition, xSize, ySize) // Creates the square
-
-    if(drawSeed){
-      ctx.drawImage(tempImg, plantPots[seedId].xPosition, plantPots[seedId].yPosition, xSize, ySize)
-    }
+      
+    //}
     
     for (let i = 0; i < 4; i++){
       ctx.drawImage(plantPots[i].image, plantPots[i].xPosition, plantPots[i].yPosition, xSize, ySize)
@@ -135,13 +144,28 @@ function canvasUpdate() {
       //ctx.strokeRect(plantPots[i].xPosition, plantPots[i].yPosition +20, xSize, ySize -20);
     }
     for (let i = 0; i < 9; i++){
-      //console.log(hotBarSlots[i])
-      //console.log(i)
-      ctx.fillStyle = hotBarSlots[i].colour
-      ctx.fillRect(hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
+      
+      if(hotBarSlots[i].selected){
+        //ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+        ctx.fillStyle = "Black"
+        ctx.drawImage(hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
+        ctx.globalAlpha = 0.3
+        ctx.fillRect(hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
+        ctx.globalAlpha = 1
+      }
+      else{
+        ctx.drawImage(hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
+      }
+      if(hotBarSlots[i].hasItem){
+        ctx.drawImage(tempImg, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
+      }
     }
     
-    
+    for(let i = 0; i < plantPots.length; i++){
+      if(plantPots[i].seedPlanted){
+        ctx.drawImage(tempImg, plantPots[i].xPosition, plantPots[i].yPosition, xSize, ySize)
+      }
+    }
     
       // Runs the movetest function, see input.js
     }

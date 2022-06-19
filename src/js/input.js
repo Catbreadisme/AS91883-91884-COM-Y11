@@ -6,6 +6,7 @@ let ySize = 100
 
 
 
+
     // Starts the event listners
     function moveStart(){
         window.addEventListener("mousemove", mouseMovement, {})
@@ -22,10 +23,8 @@ let ySize = 100
     let mouseMoveActive = false;    // Variable that shows if the object can be moved
     let objectSelected = false;     // Variable that shows if an object is selected
     let id;                         // Stores which object is currently selected
-    let seedId = false
-    let drawSeed = false
-    let hotBarSlot = 1
-    let tempvar = true
+    let hotBarSlot = 0;             // Sets The Slot to the first slot by default
+    let hotBarSlotKey = 1;          // Sets the HotbarSlotKey to 1 by default
     
     // Called when the mouse is clicked
     function onDown(mouseEvent) {
@@ -43,13 +42,11 @@ let ySize = 100
 
                 mouseMoveActive = true // Sets to true to show that the object can now move
 
-                if(seedPacketSelected){
-                    seedId = i
-                    drawSeed = true
-                    
-                }
-                else{
-
+                if(seedPacketSelected(i)){
+                    plantPots[i].seedPlanted = true // If there is a seed packet selected and you press the mouse, plant a seed
+                    plantPots[i].seedInPot = hotBarSlots[hotBarSlot].item // Sets the seed in pot to be the one planted
+                    console.log(plantPots[i].seedPlanted) //Logs for testing
+                    console.log(plantPots[i].seedInPot) //Logs for testing
                 }
             }
         }
@@ -73,6 +70,7 @@ let ySize = 100
         mouseMoveActive = false; // Object no longer moves
         objectSelected = false; // Object is no longer selected
         doc.style.cursor = 'default'; // Sets cursor back to default
+        drawSeed =false
     }
 
     // Called when mouse is down, and checks for object collision
@@ -87,56 +85,47 @@ let ySize = 100
                 return false; // return false if no collision
             }
     }
-    function seedPacketSelected(){
-        if(hotBarSlots[hotBarSlot].item == 'Seed Packet')
+    function seedPacketSelected(i){
+        if(hotBarSlots[hotBarSlot].itemType == itemTypes[0] && !plantPots[i].seedPlanted) //Checks if they item in the hot bar is a seed packet
         {
-            return true
+            console.log('planting') //Logs for testing
+            return true 
         }
         else{
             return false
         }
     }
     function keyDown(keyEvent) {
-        let key = keyEvent.key;
+        let key = keyEvent.key; //Sets key variable
         
-        if(key >=1 && key <= 9){
-            hotBarSlots[hotBarSlot].selected = false
-            hotBarSlots[hotBarSlot].colour = '#000000'
+        
+
+        if(key >=1 && key <= 9){ // Checks if the key pressed is one of the hotbar keys
+            hotBarSlots[hotBarSlot].selected = false // This stops multiple slots for being selected at once
+            //hotBarSlots[hotBarSlot].colour = '#000000'
 
 
-            hotBarSlot = key -1
+            hotBarSlot = key -1 // Offsets because its an array and arrays start at 0
             //console.log(hotBarSlot)
-            hotBarSlotKey = key
+            hotBarSlotKey = key // Used to check the hotbar is in use
             //hotBarSlot = hotBarSlot -1
-            hotBar()
+            hotBar() // Calls the hotbar function
         }
-        
-        
-        //console.log(key)
-        
-        
-        
-        
     }
 
     function hotBar() {
         if (hotBarSlotKey >= 1 && hotBarSlotKey <= hotBarSlots.length){
-            hotBarSlots[hotBarSlot].selected = true
+            hotBarSlots[hotBarSlot].selected = true // Selects the slot pressed
             //console.log(hotBarSlots[hotBarSlot])
             if (hotBarSlots[hotBarSlot].selected){
                 //console.log(hotBarSlots[hotBarSlot])
-                hotBarSlots[hotBarSlot].colour = '#979998'
+                //hotBarSlots[hotBarSlot].colour = '#979998'
                 //hotBarSlots[hotBarSlot].item = checkItem()
-                console.log(hotBarSlots[hotBarSlot].item)
+                console.log(hotBarSlots[hotBarSlot].item) // logs the item
+                console.log(hotBarSlots[hotBarSlot].itemType) // Logs the itemtype
             }
         }
 
     }
-    /* function checkItem(){
-        if(hotBarSlotKey == 1){
-            return 'Plant Seed'
-        }
-        
-    } */
 
 
