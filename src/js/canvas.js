@@ -5,7 +5,10 @@ const WIDTH = 800;
 const HEIGHT = 800;
 
 
-
+//Date
+//let date = new Date;
+//console.log(date)
+let globalDate = new Date
 
 // Get the canvas element from html
 const doc = document.getElementById("mainCanvas")
@@ -39,6 +42,7 @@ class plantPot {
     this.image = new Image
     this.seedPlanted = false
     this.seedInPot = 'None'
+    this.date = new Date
   }
 }
 
@@ -60,6 +64,24 @@ class hotBarClass {
     
 
 }
+
+class seedPacket{
+  constructor(years, months, days, hours, minutes, seconds){
+    this.seconds = seconds
+    this.minutes = minutes
+    this.hours = hours
+    this.days = days
+    this.months = months
+    this.years = years
+    this.timeToGrow = years+"-" + months+"-" + days+" " + hours+":" + minutes+":" + seconds
+
+    this.stage1
+    this.stage2
+    this.stage3
+  }
+}
+
+
 
 let hotBarSlot1 = new hotBarClass(1, 40)
 let hotBarSlot2 = new hotBarClass(2, 120)
@@ -85,6 +107,7 @@ plantPots[3].image.src = 'images/placeholder.png'
 plantPots[0].image.src = 'images/placeholder.png'
 plantPots[1].image.src = 'images/placeholder.png'
 plantPots[2].image.src = 'images/placeholder.png'
+plantPots[4].image.src = 'images/placeholder.png'
 
 let tempImg = new Image;
 tempImg.src = 'images/test.png'
@@ -94,7 +117,8 @@ hotBarImage.src = 'images/HotbarSlot.png'
 
 let itemTypes = ['Seed Packet', 'Watering Can']
 
-
+let tomatoSeeds = new seedPacket(2022, 06, 21, 02, 37, 06)
+console.log(tomatoSeeds.timeToGrow)
 
 function canvasStart() {
     ctx = doc.getContext("2d") // Get the canvas element
@@ -114,35 +138,55 @@ function canvasStart() {
     
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
 
+    DateTesting = setInterval(ActiveDateFunction, 1000)
+
     moveStart() // Starts Movement Event Listners
     for (pots = 0; pots < plantPots.length; pots++){
       console.log("Start positions ", "X", plantPots[pots].xPosition, "Y", plantPots[pots].yPosition)
     }
+    
+    
 
     //console.log(ho)
     
 }
 
+function ActiveDateFunction(){
+  globalDate = new Date
+
+  let currentTime = {
+    CurrentYear: globalDate.getFullYear(),
+    CurrentMonth: globalDate.getUTCMonth(),
+    CurrentDay: globalDate.getDate(),
+    CurrentHour: globalDate.getHours(),
+    CurrentMinute: globalDate.getMinutes(),
+    CurrentSecond: globalDate.getSeconds()
+  }
+
+  console.log(currentTime)
+  document.getElementById("clock").innerHTML = JSON.stringify(currentTime);
+  
+}
 
 // Updates 60 times per seconds, see fps
 function canvasUpdate() {
   
     ctx.clearRect(0, 0, WIDTH, HEIGHT)
 
-    ctx.fillStyle = "black"
-    ctx.fillRect(plantPots[4].xPosition, plantPots[4].yPosition, xSize, ySize)
-    
-    //if(){
+    for(let i = 0; i < plantPots.length; i++){
+      if(plantPots[i].seedPlanted){
+        ctx.drawImage(tempImg, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
+      }
+    }
 
-      
-    //}
-    
-    for (let i = 0; i < 4; i++){
+    for (let i = 0; i < 5; i++){
       ctx.drawImage(plantPots[i].image, plantPots[i].xPosition, plantPots[i].yPosition, xSize, ySize)
 
       //ctx.strokeStyle = "rgb(0,255,0)"
       //ctx.strokeRect(plantPots[i].xPosition, plantPots[i].yPosition +20, xSize, ySize -20);
     }
+    
+
     for (let i = 0; i < 9; i++){
       
       if(hotBarSlots[i].selected){
@@ -157,13 +201,7 @@ function canvasUpdate() {
         ctx.drawImage(hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
       }
       if(hotBarSlots[i].hasItem){
-        ctx.drawImage(tempImg, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
-      }
-    }
-    
-    for(let i = 0; i < plantPots.length; i++){
-      if(plantPots[i].seedPlanted){
-        ctx.drawImage(tempImg, plantPots[i].xPosition, plantPots[i].yPosition, xSize, ySize)
+        ctx.drawImage(tempImg, hotBarSlots[i].xPos +15, hotBarSlots[i].yPos+15, hotBarSlots[i].xSize -30, hotBarSlots[i].ySize - 30)
       }
     }
     
