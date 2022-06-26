@@ -70,7 +70,6 @@ let ySize = 100
         mouseMoveActive = false; // Object no longer moves
         objectSelected = false; // Object is no longer selected
         doc.style.cursor = 'default'; // Sets cursor back to default
-        drawSeed =false
     }
 
     // Called when mouse is down, and checks for object collision
@@ -126,6 +125,21 @@ let ySize = 100
             }
         }
 
+    }
+
+    function growSeeds(time){
+        for( i = 0; i <= plantPots.length; i++){
+            let growTime = time + tomatoSeeds.timeToGrow   //[plantPots[i].seedInPot]
+            if(growTime = time){
+                tomatoSeeds.stage2 = true
+                tomatoSeeds.stage1 = false
+                //console.log(tomatoSeeds.stage2)
+                //console.log(tomatoSeeds.stage1)
+            }
+        }
+        //if (){
+
+        //}
     }
 
 

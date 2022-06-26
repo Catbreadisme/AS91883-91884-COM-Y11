@@ -1,13 +1,16 @@
-// This script controls the canvas
+
+// Name: Cat
+// Version Number: 
+// 
+// 
+
+// This script controls the game
 
 // Size of the canvas
 const WIDTH = 800;
 const HEIGHT = 800;
 
-
-//Date
-//let date = new Date;
-//console.log(date)
+// Date
 let globalDate = new Date
 
 // Get the canvas element from html
@@ -21,10 +24,6 @@ doc.setAttribute("height", HEIGHT);
 var ctx; // Canvas context variable
 
 // Movement variables (temp), see input.js
-let xPosition = 0;
-let yPosition = 0;
-let xSpeed = 1;
-let ySpeed = 1;
 let pots;
 let gameActive;
 
@@ -33,20 +32,20 @@ let gameActive;
 // Start the canvas
 window.onload = canvasStart
 
-
-class plantPot {
+// Plant Pot Class
+class PlantPot {
   constructor(xPosition, yPosition, isDraggable){
     this.xPosition = xPosition
     this.yPosition = yPosition
     this.draggable = isDraggable
     this.image = new Image
+    this.image.src = 'images/placeholder.png'
     this.seedPlanted = false
     this.seedInPot = 'None'
-    this.date = new Date
   }
 }
-
-class hotBarClass {
+// Hotbar Class
+class HotBarClass {
     constructor(hotBarSlot, xPos/* , item */){
       this.hotBarSlot = hotBarSlot
       //this.item = item
@@ -64,8 +63,8 @@ class hotBarClass {
     
 
 }
-
-class seedPacket{
+// SeedPacket Class
+class SeedPacket{
   constructor(years, months, days, hours, minutes, seconds){
     this.seconds = seconds
     this.minutes = minutes
@@ -73,51 +72,53 @@ class seedPacket{
     this.days = days
     this.months = months
     this.years = years
-    this.timeToGrow = years+"-" + months+"-" + days+" " + hours+":" + minutes+":" + seconds
+    this.timeToGrow = years +" "+ months +" "+ days +" "+ hours +" "+ minutes +" "+ seconds
 
-    this.stage1
-    this.stage2
-    this.stage3
+
+    this.stage1 = true
+    this.stage2 = false
+    this.stage3 = false
   }
 }
 
 
+// Sets up the hotbar slots
+let hotBarSlot1 = new HotBarClass(1, 40)
+let hotBarSlot2 = new HotBarClass(2, 120)
+let hotBarSlot3 = new HotBarClass(3, 200)
+let hotBarSlot4 = new HotBarClass(4, 280)
+let hotBarSlot5 = new HotBarClass(5, 360)
+let hotBarSlot6 = new HotBarClass(6, 440)
+let hotBarSlot7 = new HotBarClass(7, 520)
+let hotBarSlot8 = new HotBarClass(8, 600)
+let hotBarSlot9 = new HotBarClass(9, 680)
 
-let hotBarSlot1 = new hotBarClass(1, 40)
-let hotBarSlot2 = new hotBarClass(2, 120)
-let hotBarSlot3 = new hotBarClass(3, 200)
-let hotBarSlot4 = new hotBarClass(4, 280)
-let hotBarSlot5 = new hotBarClass(5, 360)
-let hotBarSlot6 = new hotBarClass(6, 440)
-let hotBarSlot7 = new hotBarClass(7, 520)
-let hotBarSlot8 = new hotBarClass(8, 600)
-let hotBarSlot9 = new hotBarClass(9, 680)
-
+// Hotbar Array
 let hotBarSlots = [hotBarSlot1, hotBarSlot2, hotBarSlot3, hotBarSlot4, hotBarSlot5, hotBarSlot6, hotBarSlot7, hotBarSlot8, hotBarSlot9]
 
-let pot1 = new plantPot(0, 0, true)
-let pot2 = new plantPot(0, 150, true)
-let pot3 = new plantPot(150, 0, true)
-let pot4 = new plantPot(200, 200, true)
-let pot5 = new plantPot(210, 290, true)
+// Sets up the plant pots
+let pot1 = new PlantPot(0, 0, true)
+let pot2 = new PlantPot(0, 150, true)
+let pot3 = new PlantPot(150, 0, true)
+let pot4 = new PlantPot(200, 200, true)
+let pot5 = new PlantPot(210, 290, true)
 
+// Plantpot array
 let plantPots = [pot1, pot2, pot3, pot4, pot5]
 
-plantPots[3].image.src = 'images/placeholder.png'
-plantPots[0].image.src = 'images/placeholder.png'
-plantPots[1].image.src = 'images/placeholder.png'
-plantPots[2].image.src = 'images/placeholder.png'
-plantPots[4].image.src = 'images/placeholder.png'
-
+// Temp Image for testing
 let tempImg = new Image;
 tempImg.src = 'images/test.png'
 
+//Sets up the hotbar image
 let hotBarImage = new Image;
 hotBarImage.src = 'images/HotbarSlot.png'
 
+// Types of items array
 let itemTypes = ['Seed Packet', 'Watering Can']
 
-let tomatoSeeds = new seedPacket(2022, 06, 21, 02, 37, 06)
+// Seed Setup
+let tomatoSeeds = new SeedPacket(0, 0, 0, 0, 0, 15)
 console.log(tomatoSeeds.timeToGrow)
 
 function canvasStart() {
@@ -138,7 +139,7 @@ function canvasStart() {
     
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
 
-    DateTesting = setInterval(ActiveDateFunction, 1000)
+    activeDate = setInterval(ActiveDateFunction, 1000)
 
     moveStart() // Starts Movement Event Listners
     for (pots = 0; pots < plantPots.length; pots++){
@@ -162,10 +163,11 @@ function ActiveDateFunction(){
     CurrentMinute: globalDate.getMinutes(),
     CurrentSecond: globalDate.getSeconds()
   }
-
-  console.log(currentTime)
+  let activeTime = currentTime.CurrentYear +" "+ currentTime.CurrentMonth +" "+ currentTime.CurrentDay +" "+ currentTime.CurrentHour +" "+ currentTime.CurrentMinute +" "+ currentTime.CurrentSecond
+  //console.log(currentTime)
   document.getElementById("clock").innerHTML = JSON.stringify(currentTime);
-  
+  console.log(activeTime)
+  growSeeds(activeTime)
 }
 
 // Updates 60 times per seconds, see fps
