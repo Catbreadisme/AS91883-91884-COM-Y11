@@ -23,9 +23,9 @@ doc.setAttribute("height", HEIGHT);
 
 var ctx; // Canvas context variable
 
-// Movement variables (temp), see input.js
-let pots;
+// Game and time management variables
 let gameActive;
+let activeTime;
 
 
 
@@ -72,7 +72,8 @@ class SeedPacket{
     this.days = days
     this.months = months
     this.years = years
-    this.timeToGrow = years +" "+ months +" "+ days +" "+ hours +" "+ minutes +" "+ seconds
+    
+    this.timeToGrow = years +""+ months +""+ days +""+ hours +""+ minutes +""+ seconds
 
 
     this.stage1 = true
@@ -163,11 +164,15 @@ function ActiveDateFunction(){
     CurrentMinute: globalDate.getMinutes(),
     CurrentSecond: globalDate.getSeconds()
   }
-  let activeTime = currentTime.CurrentYear +" "+ currentTime.CurrentMonth +" "+ currentTime.CurrentDay +" "+ currentTime.CurrentHour +" "+ currentTime.CurrentMinute +" "+ currentTime.CurrentSecond
+  let activeTimeString = currentTime.CurrentYear +""+ currentTime.CurrentMonth +""+ currentTime.CurrentDay +""+ currentTime.CurrentHour +""+ currentTime.CurrentMinute +""+ currentTime.CurrentSecond
   //console.log(currentTime)
+  activeTime = parseInt(activeTimeString)
+  
   document.getElementById("clock").innerHTML = JSON.stringify(currentTime);
-  console.log(activeTime)
-  growSeeds(activeTime)
+  //console.log(testTime)
+  
+  growSeeds(activeTime, currentTime)
+  //getTime(activeTime)
 }
 
 // Updates 60 times per seconds, see fps

@@ -25,6 +25,7 @@ let ySize = 100
     let id;                         // Stores which object is currently selected
     let hotBarSlot = 0;             // Sets The Slot to the first slot by default
     let hotBarSlotKey = 1;          // Sets the HotbarSlotKey to 1 by default
+    let holdTime;
     
     // Called when the mouse is clicked
     function onDown(mouseEvent) {
@@ -47,6 +48,7 @@ let ySize = 100
                     plantPots[i].seedInPot = hotBarSlots[hotBarSlot].item // Sets the seed in pot to be the one planted
                     console.log(plantPots[i].seedPlanted) //Logs for testing
                     console.log(plantPots[i].seedInPot) //Logs for testing
+                    holdTime = activeTime
                 }
             }
         }
@@ -127,19 +129,30 @@ let ySize = 100
 
     }
 
-    function growSeeds(time){
-        for( i = 0; i <= plantPots.length; i++){
-            let growTime = time + tomatoSeeds.timeToGrow   //[plantPots[i].seedInPot]
-            if(growTime = time){
-                tomatoSeeds.stage2 = true
-                tomatoSeeds.stage1 = false
-                //console.log(tomatoSeeds.stage2)
-                //console.log(tomatoSeeds.stage1)
-            }
-        }
-        //if (){
+    function growSeeds(time, currentTime){
+        let growTime;
+        
+        //for( i = 0; i < plantPots.length; i++){
+            growTime = holdTime + parseInt(tomatoSeeds.timeToGrow)
 
+            if(currentTime.CurrentSecond + parseInt(tomatoSeeds.seconds) >= 60){
+                console.log('this wont work')
+                growtime = growTime + timeLeft
+            }
+            
+            if (tomatoSeeds.timeToGrow){
+
+            }
+            if(growTime == time){
+                tomatoSeeds.stage1 = false
+                tomatoSeeds.stage2 = true
+                
+                console.log(tomatoSeeds.stage1)
+                console.log(tomatoSeeds.stage2)
+                
+            }
         //}
+        console.log(growTime, time)
     }
 
 
