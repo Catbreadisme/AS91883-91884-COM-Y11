@@ -25,7 +25,8 @@ let ySize = 100
     let id;                         // Stores which object is currently selected
     let hotBarSlot = 0;             // Sets The Slot to the first slot by default
     let hotBarSlotKey = 1;          // Sets the HotbarSlotKey to 1 by default
-    let holdTime;
+    //let holdTime;
+    let savedTick;
     
     // Called when the mouse is clicked
     function onDown(mouseEvent) {
@@ -48,7 +49,8 @@ let ySize = 100
                     plantPots[i].seedInPot = hotBarSlots[hotBarSlot].item // Sets the seed in pot to be the one planted
                     console.log(plantPots[i].seedPlanted) //Logs for testing
                     console.log(plantPots[i].seedInPot) //Logs for testing
-                    holdTime = activeTime
+                    plantPots[i].savedTick = globalTick
+                    //holdTime = activeTime
                 }
             }
         }
@@ -129,8 +131,22 @@ let ySize = 100
 
     }
 
-    function growSeeds(time, currentTime){
-        let growTime;
+    function growSeeds(){
+        for(i = 0; i < plantPots.length; i++){
+            let growTick1 = plantPots[i].savedTick + plantPots[i].seedInPot.ticksToGrow
+            if(growTick1 == globalTick && plantPots[i].seedPlanted){
+                plantPots[i].stage1 = false
+                plantPots[i].stage2 = true
+                console.log(plantPots[i].stage2)
+            }
+        }
+        
+        //if (growTick2 == globalTick){
+
+        //}
+    }
+
+        /* let growTime;
         
         //for( i = 0; i < plantPots.length; i++){
             growTime = holdTime + parseInt(tomatoSeeds.timeToGrow)
@@ -152,7 +168,7 @@ let ySize = 100
                 
             }
         //}
-        console.log(growTime, time)
-    }
+        console.log(growTime, time) */
+    
 
 

@@ -10,8 +10,10 @@
 const WIDTH = 800;
 const HEIGHT = 800;
 
-// Date
-let globalDate = new Date
+// Date + Time
+//let globalDate = new Date
+let globalTick = 0;
+let saveDate;
 
 // Get the canvas element from html
 const doc = document.getElementById("mainCanvas")
@@ -42,6 +44,11 @@ class PlantPot {
     this.image.src = 'images/placeholder.png'
     this.seedPlanted = false
     this.seedInPot = 'None'
+
+    this.stage1 = true
+    this.stage2 = false
+    this.stage3 = false
+    this.savedTick;
   }
 }
 // Hotbar Class
@@ -65,20 +72,13 @@ class HotBarClass {
 }
 // SeedPacket Class
 class SeedPacket{
-  constructor(years, months, days, hours, minutes, seconds){
-    this.seconds = seconds
-    this.minutes = minutes
-    this.hours = hours
-    this.days = days
-    this.months = months
-    this.years = years
+  constructor(ticksToGrow, seedType){
+    this.seedType = seedType
+    this.ticksToGrow = ticksToGrow
+
+    this.growStages
+
     
-    this.timeToGrow = years +""+ months +""+ days +""+ hours +""+ minutes +""+ seconds
-
-
-    this.stage1 = true
-    this.stage2 = false
-    this.stage3 = false
   }
 }
 
@@ -119,14 +119,15 @@ hotBarImage.src = 'images/HotbarSlot.png'
 let itemTypes = ['Seed Packet', 'Watering Can']
 
 // Seed Setup
-let tomatoSeeds = new SeedPacket(0, 0, 0, 0, 0, 15)
-console.log(tomatoSeeds.timeToGrow)
+let tomatoSeeds = new SeedPacket(10, 'TomatoSeed')
+let basilSeeds = new SeedPacket(5, 'BasilSeed')
 
 function canvasStart() {
     ctx = doc.getContext("2d") // Get the canvas element
     gameActive = true
     
-    
+    // Setup of save data
+    globalTick = localStorage.getItem('GlobalTick')
     
     hotBarSlots[1].item = localStorage.getItem("storedItem2")
     hotBarSlots[2].item = localStorage.getItem("storedItem3")
@@ -135,12 +136,16 @@ function canvasStart() {
     hotBarSlots[5].item = localStorage.getItem("storedItem6")
 
     hotBarSlots[1].itemType = itemTypes[0]
-    hotBarSlots[1].item = 'Tomato Seed'
+    hotBarSlots[1].item = tomatoSeeds
     hotBarSlots[1].hasItem = true
+
+    hotBarSlots[2].itemType = itemTypes[0]
+    hotBarSlots[2].item = basilSeeds
+    hotBarSlots[2].hasItem = true
     
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
 
-    activeDate = setInterval(ActiveDateFunction, 1000)
+    ticks = setInterval(tickSystem, 1000)
 
     moveStart() // Starts Movement Event Listners
     for (pots = 0; pots < plantPots.length; pots++){
@@ -153,7 +158,25 @@ function canvasStart() {
     
 }
 
-function ActiveDateFunction(){
+function tickSystem(){
+    globalTick ++
+    console.log(globalTick)
+    localStorage.setItem('GlobalTick', globalTick)
+
+    globalDate = new Date
+    saveDate = {
+      savedYear: globalDate.getFullYear(),
+      savedMonth: globalDate.getUTCMonth(),
+      savedDay: globalDate.getDate(),
+      savedHour: globalDate.getHours(),
+      savedMinute: globalDate.getMinutes(),
+      savedSecond: globalDate.getSeconds()
+    }
+    localStorage.setItem("SaveDate", saveDate)
+
+    growSeeds()
+}
+/* function ActiveDateFunction(){
   globalDate = new Date
 
   let currentTime = {
@@ -173,7 +196,7 @@ function ActiveDateFunction(){
   
   growSeeds(activeTime, currentTime)
   //getTime(activeTime)
-}
+} */
 
 // Updates 60 times per seconds, see fps
 function canvasUpdate() {
@@ -181,8 +204,11 @@ function canvasUpdate() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT)
 
     for(let i = 0; i < plantPots.length; i++){
-      if(plantPots[i].seedPlanted){
+      if(plantPots[i].seedPlanted && plantPots[i].stage1 == true){
         ctx.drawImage(tempImg, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
+      }
+      else if (plantPots[i].seedPlanted && plantPots[i].stage2 == true){
+        ctx.drawImage(hotBarImage, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
       }
     }
 
