@@ -52,6 +52,11 @@ let ySize = 100
                     plantPots[i].savedTick = globalTick
                     //holdTime = activeTime
                 }
+                if(wateringCanSelected(i)){
+                    if(!plantPots[i].isWatered){
+                        plantPots[i].isWatered = true;
+                    }
+                }
             }
         }
         
@@ -98,6 +103,14 @@ let ySize = 100
             return false
         }
     }
+    function wateringCanSelected(i){
+        if(hotBarSlots[hotBarSlot].itemType == itemTypes[1]){
+            return true
+        }
+        else{
+            return false
+        }
+    }
     function keyDown(keyEvent) {
         let key = keyEvent.key; //Sets key variable
         
@@ -134,7 +147,7 @@ let ySize = 100
     function growSeeds(){
         for(i = 0; i < plantPots.length; i++){
             let growTick1 = plantPots[i].savedTick + plantPots[i].seedInPot.ticksToGrow
-            if(growTick1 == globalTick && plantPots[i].seedPlanted){
+            if(growTick1 >= globalTick && plantPots[i].seedPlanted && plantPots[i].isWatered){
                 plantPots[i].stage1 = false
                 plantPots[i].stage2 = true
                 console.log(plantPots[i].stage2)

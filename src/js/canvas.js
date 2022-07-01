@@ -40,10 +40,13 @@ class PlantPot {
     this.xPosition = xPosition
     this.yPosition = yPosition
     this.draggable = isDraggable
+
     this.image = new Image
     this.image.src = 'images/placeholder.png'
+
     this.seedPlanted = false
     this.seedInPot = 'None'
+    this.isWatered = false;
 
     this.stage1 = true
     this.stage2 = false
