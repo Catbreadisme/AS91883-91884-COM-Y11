@@ -4,9 +4,6 @@
 let xSize = 100 
 let ySize = 100
 
-
-
-
     // Starts the event listners
     function moveStart(){
         window.addEventListener("mousemove", mouseMovement, {})
@@ -45,17 +42,30 @@ let ySize = 100
                 mouseMoveActive = true // Sets to true to show that the object can now move
 
                 if(seedPacketSelected(i)){
+                    
                     plantPots[i].seedPlanted = true // If there is a seed packet selected and you press the mouse, plant a seed
                     plantPots[i].seedInPot = hotBarSlots[hotBarSlot].item // Sets the seed in pot to be the one planted
+                    plantPots[i].savedTick = globalTick
                     console.log(plantPots[i].seedPlanted) //Logs for testing
                     console.log(plantPots[i].seedInPot) //Logs for testing
-                    plantPots[i].savedTick = globalTick
+                    
                     //holdTime = activeTime
                 }
                 if(wateringCanSelected(i)){
                     if(!plantPots[i].isWatered){
                         plantPots[i].isWatered = true;
                     }
+                }
+                if(trashCanSelected(i)){
+                    //Delete sum shit ay
+                    money = money + plantPots[i].seedInPot.value
+                    console.log(money)
+                    localStorage.setItem('Money', money)
+                    plantPots[i].seedPlanted = false
+                    plantPots[i].seedInPot = 'Empty'
+                    plantPots[i].stage1 = true
+                    plantPots[i].stage2 = false
+                    plantPots[i].isWatered = false
                 }
             }
         }
@@ -104,7 +114,15 @@ let ySize = 100
         }
     }
     function wateringCanSelected(i){
-        if(hotBarSlots[hotBarSlot].itemType == itemTypes[1]){
+        if(hotBarSlots[hotBarSlot].itemType == 1 && plantPots[i].seedPlanted){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    function trashCanSelected(i){
+        if(hotBarSlots[hotBarSlot].itemType == 2 && plantPots[i].seedPlanted){
             return true
         }
         else{
@@ -147,41 +165,9 @@ let ySize = 100
     function growSeeds(){
         for(i = 0; i < plantPots.length; i++){
             let growTick1 = plantPots[i].savedTick + plantPots[i].seedInPot.ticksToGrow
-            if(growTick1 >= globalTick && plantPots[i].seedPlanted && plantPots[i].isWatered){
+            if(growTick1 == globalTick && plantPots[i].seedPlanted && plantPots[i].isWatered ){
                 plantPots[i].stage1 = false
                 plantPots[i].stage2 = true
-                console.log(plantPots[i].stage2)
             }
         }
-        
-        //if (growTick2 == globalTick){
-
-        //}
     }
-
-        /* let growTime;
-        
-        //for( i = 0; i < plantPots.length; i++){
-            growTime = holdTime + parseInt(tomatoSeeds.timeToGrow)
-
-            if(currentTime.CurrentSecond + parseInt(tomatoSeeds.seconds) >= 60){
-                console.log('this wont work')
-                growtime = growTime + timeLeft
-            }
-            
-            if (tomatoSeeds.timeToGrow){
-
-            }
-            if(growTime == time){
-                tomatoSeeds.stage1 = false
-                tomatoSeeds.stage2 = true
-                
-                console.log(tomatoSeeds.stage1)
-                console.log(tomatoSeeds.stage2)
-                
-            }
-        //}
-        console.log(growTime, time) */
-    
-
-

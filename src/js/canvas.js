@@ -1,17 +1,16 @@
 
 // Name: Cat
-// Version Number: 
+// Version Number: Uhhh
 // 
 // 
 
-// This script controls the game
+// This script controls the game and the canvas
 
 // Size of the canvas
 const WIDTH = 800;
 const HEIGHT = 800;
 
 // Date + Time
-//let globalDate = new Date
 let globalTick = 0;
 let saveDate;
 
@@ -23,115 +22,29 @@ console.log(doc)
 doc.setAttribute("width", WIDTH); 
 doc.setAttribute("height", HEIGHT);
 
+
+
+// Game management variables
+let gameActive; // Shows if game is active
 var ctx; // Canvas context variable
 
-// Game and time management variables
-let gameActive;
-let activeTime;
-
-
-
-// Start the canvas
+// Start the Program
 window.onload = canvasStart
-
-// Plant Pot Class
-class PlantPot {
-  constructor(xPosition, yPosition, isDraggable){
-    this.xPosition = xPosition
-    this.yPosition = yPosition
-    this.draggable = isDraggable
-
-    this.image = new Image
-    this.image.src = 'images/placeholder.png'
-
-    this.seedPlanted = false
-    this.seedInPot = 'None'
-    this.isWatered = false;
-
-    this.stage1 = true
-    this.stage2 = false
-    this.stage3 = false
-    this.savedTick;
-  }
-}
-// Hotbar Class
-class HotBarClass {
-    constructor(hotBarSlot, xPos/* , item */){
-      this.hotBarSlot = hotBarSlot
-      //this.item = item
-      this.selected = false
-      this.colour = '#000000'
-      this.xSize = 80
-      this.ySize = 80
-      this.xPos = xPos
-      this.yPos = 720
-      this.item = 'Empty'
-      this.itemType = 'Empty'
-      this.hasItem = false
-    }
-
-    
-
-}
-// SeedPacket Class
-class SeedPacket{
-  constructor(ticksToGrow, seedType){
-    this.seedType = seedType
-    this.ticksToGrow = ticksToGrow
-
-    this.growStages
-
-    
-  }
-}
-
-
-// Sets up the hotbar slots
-let hotBarSlot1 = new HotBarClass(1, 40)
-let hotBarSlot2 = new HotBarClass(2, 120)
-let hotBarSlot3 = new HotBarClass(3, 200)
-let hotBarSlot4 = new HotBarClass(4, 280)
-let hotBarSlot5 = new HotBarClass(5, 360)
-let hotBarSlot6 = new HotBarClass(6, 440)
-let hotBarSlot7 = new HotBarClass(7, 520)
-let hotBarSlot8 = new HotBarClass(8, 600)
-let hotBarSlot9 = new HotBarClass(9, 680)
-
-// Hotbar Array
-let hotBarSlots = [hotBarSlot1, hotBarSlot2, hotBarSlot3, hotBarSlot4, hotBarSlot5, hotBarSlot6, hotBarSlot7, hotBarSlot8, hotBarSlot9]
-
-// Sets up the plant pots
-let pot1 = new PlantPot(0, 0, true)
-let pot2 = new PlantPot(0, 150, true)
-let pot3 = new PlantPot(150, 0, true)
-let pot4 = new PlantPot(200, 200, true)
-let pot5 = new PlantPot(210, 290, true)
-
-// Plantpot array
-let plantPots = [pot1, pot2, pot3, pot4, pot5]
 
 // Temp Image for testing
 let tempImg = new Image;
 tempImg.src = 'images/test.png'
 
-//Sets up the hotbar image
-let hotBarImage = new Image;
-hotBarImage.src = 'images/HotbarSlot.png'
-
-// Types of items array
-let itemTypes = ['Seed Packet', 'Watering Can']
-
-// Seed Setup
-let tomatoSeeds = new SeedPacket(10, 'TomatoSeed')
-let basilSeeds = new SeedPacket(5, 'BasilSeed')
+let money = 0;
 
 function canvasStart() {
     ctx = doc.getContext("2d") // Get the canvas element
-    gameActive = true
+    gameActive = true //
     
     // Setup of save data
     globalTick = localStorage.getItem('GlobalTick')
-    
+    money = parseInt(localStorage.getItem("Money"))
+    //Hotbar Save Data (test)
     hotBarSlots[1].item = localStorage.getItem("storedItem2")
     hotBarSlots[2].item = localStorage.getItem("storedItem3")
     hotBarSlots[3].item = localStorage.getItem("storedItem4")
@@ -145,27 +58,29 @@ function canvasStart() {
     hotBarSlots[2].itemType = itemTypes[0]
     hotBarSlots[2].item = basilSeeds
     hotBarSlots[2].hasItem = true
+
+    hotBarSlots[0].itemType = wateringCan.itemType
+    hotBarSlots[0].item = wateringCan
+    hotBarSlots[0].hasItem = true
+
+    hotBarSlots[8].itemType = trashCan.itemType
+    hotBarSlots[8].item = trashCan
+    hotBarSlots[8].hasItem = true
     
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
-
     ticks = setInterval(tickSystem, 1000)
 
     moveStart() // Starts Movement Event Listners
     for (pots = 0; pots < plantPots.length; pots++){
       console.log("Start positions ", "X", plantPots[pots].xPosition, "Y", plantPots[pots].yPosition)
     }
-    
-    
-
-    //console.log(ho)
-    
 }
 
 function tickSystem(){
-    globalTick ++
-    console.log(globalTick)
-    localStorage.setItem('GlobalTick', globalTick)
+    globalTick ++ // Increases the global tick
+    localStorage.setItem('GlobalTick', globalTick) //Saves the Global tick between sessions
 
+    // All the date stuff is going to be used to extend the tick system
     globalDate = new Date
     saveDate = {
       savedYear: globalDate.getFullYear(),
@@ -176,70 +91,51 @@ function tickSystem(){
       savedSecond: globalDate.getSeconds()
     }
     localStorage.setItem("SaveDate", saveDate)
+    // Heres where the date stops
 
-    growSeeds()
+    growSeeds() // Runs grow seeds function which checks if a seed can grow, check input.js for more
+    
+    document.getElementById("money").innerHTML = "Wallet: " + money // Displays the wallet, to be worked into the canvas soon
+    
 }
-/* function ActiveDateFunction(){
-  globalDate = new Date
-
-  let currentTime = {
-    CurrentYear: globalDate.getFullYear(),
-    CurrentMonth: globalDate.getUTCMonth(),
-    CurrentDay: globalDate.getDate(),
-    CurrentHour: globalDate.getHours(),
-    CurrentMinute: globalDate.getMinutes(),
-    CurrentSecond: globalDate.getSeconds()
-  }
-  let activeTimeString = currentTime.CurrentYear +""+ currentTime.CurrentMonth +""+ currentTime.CurrentDay +""+ currentTime.CurrentHour +""+ currentTime.CurrentMinute +""+ currentTime.CurrentSecond
-  //console.log(currentTime)
-  activeTime = parseInt(activeTimeString)
-  
-  document.getElementById("clock").innerHTML = JSON.stringify(currentTime);
-  //console.log(testTime)
-  
-  growSeeds(activeTime, currentTime)
-  //getTime(activeTime)
-} */
 
 // Updates 60 times per seconds, see fps
 function canvasUpdate() {
   
-    ctx.clearRect(0, 0, WIDTH, HEIGHT)
+    ctx.clearRect(0, 0, WIDTH, HEIGHT) // Clears the canvas, eliminates mess
 
+    // Draws the seeds first because js is a semi syncronus language
     for(let i = 0; i < plantPots.length; i++){
       if(plantPots[i].seedPlanted && plantPots[i].stage1 == true){
         ctx.drawImage(tempImg, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
       }
       else if (plantPots[i].seedPlanted && plantPots[i].stage2 == true){
-        ctx.drawImage(hotBarImage, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
+        ctx.drawImage(hotBarSlots[i].hotBarImage, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
       }
     }
 
+    // Draws the plant pots
     for (let i = 0; i < 5; i++){
       ctx.drawImage(plantPots[i].image, plantPots[i].xPosition, plantPots[i].yPosition, xSize, ySize)
-
-      //ctx.strokeStyle = "rgb(0,255,0)"
-      //ctx.strokeRect(plantPots[i].xPosition, plantPots[i].yPosition +20, xSize, ySize -20);
     }
     
-
+    // Draws the hotbars, the hotbar selection and the hotbar items
     for (let i = 0; i < 9; i++){
-      
+      // Draws Selected hotbar slot
       if(hotBarSlots[i].selected){
-        //ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
         ctx.fillStyle = "Black"
-        ctx.drawImage(hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
+        ctx.drawImage(hotBarSlots[i].hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
         ctx.globalAlpha = 0.3
         ctx.fillRect(hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
         ctx.globalAlpha = 1
       }
+      // Draws unselected hotbar slot
       else{
-        ctx.drawImage(hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
+        ctx.drawImage(hotBarSlots[i].hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
       }
+
       if(hotBarSlots[i].hasItem){
-        ctx.drawImage(tempImg, hotBarSlots[i].xPos +15, hotBarSlots[i].yPos+15, hotBarSlots[i].xSize -30, hotBarSlots[i].ySize - 30)
+        ctx.drawImage(hotBarSlots[i].item.itemImage, hotBarSlots[i].xPos +15, hotBarSlots[i].yPos+15, hotBarSlots[i].xSize -30, hotBarSlots[i].ySize - 30)
       }
     }
-    
-      // Runs the movetest function, see input.js
     }
