@@ -51,7 +51,11 @@ class PlantPot {
       //this.growStages
       this.itemImage = new Image
       this.itemImage.src = 'images/test.png'
-      
+
+      this.stage1Image = new Image
+      this.stage1Image.src = 'images/test.png'
+      this.stage2Image = new Image
+      this.stage2Image.src = 'images/HotbarSlot.png'
     }
   }
   

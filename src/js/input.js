@@ -60,6 +60,7 @@ let ySize = 100
                     //Delete sum shit ay
                     money = money + plantPots[i].seedInPot.value
                     console.log(money)
+                    money = parseInt(money)
                     localStorage.setItem('Money', money)
                     plantPots[i].seedPlanted = false
                     plantPots[i].seedInPot = 'Empty'
@@ -165,9 +166,44 @@ let ySize = 100
     function growSeeds(){
         for(i = 0; i < plantPots.length; i++){
             let growTick1 = plantPots[i].savedTick + plantPots[i].seedInPot.ticksToGrow
-            if(growTick1 == globalTick && plantPots[i].seedPlanted && plantPots[i].isWatered ){
+            if(globalTick >= growTick1 && plantPots[i].seedPlanted && plantPots[i].isWatered ){
                 plantPots[i].stage1 = false
                 plantPots[i].stage2 = true
             }
         }
+    }
+    function localStorageGet(){
+        // Global Data
+        globalTick = localStorage.getItem('GlobalTick') // Gets the global tick
+        let moneyHold = parseInt(localStorage.getItem("Money")) //Converts the money to an int
+        if(typeof moneyHold === "number"){ // Checks if the money is a number, fixes a bug that causes money to be NAN
+            money = moneyHold // Money is now set
+        }
+        else {
+            money = 0
+        }
+        
+        //Hotbar Save Data (test)
+        hotBarSlots[1].item = localStorage.getItem("storedItem2")
+        hotBarSlots[2].item = localStorage.getItem("storedItem3")
+        hotBarSlots[3].item = localStorage.getItem("storedItem4")
+        hotBarSlots[4].item = localStorage.getItem("storedItem5")
+        hotBarSlots[5].item = localStorage.getItem("storedItem6")
+
+        // Item Setup (test)
+        hotBarSlots[1].itemType = itemTypes[0]
+        hotBarSlots[1].item = tomatoSeeds
+        hotBarSlots[1].hasItem = true
+
+        hotBarSlots[2].itemType = itemTypes[0]
+        hotBarSlots[2].item = basilSeeds
+        hotBarSlots[2].hasItem = true
+
+        hotBarSlots[0].itemType = wateringCan.itemType
+        hotBarSlots[0].item = wateringCan
+        hotBarSlots[0].hasItem = true
+
+        hotBarSlots[8].itemType = trashCan.itemType
+        hotBarSlots[8].item = trashCan
+        hotBarSlots[8].hasItem = true
     }

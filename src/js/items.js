@@ -16,10 +16,10 @@ let hotBarSlots = [hotBarSlot1, hotBarSlot2, hotBarSlot3, hotBarSlot4, hotBarSlo
 
 // Sets up the plant pots
 let pot1 = new PlantPot(0, 0, true)
-let pot2 = new PlantPot(0, 150, true)
-let pot3 = new PlantPot(150, 0, true)
-let pot4 = new PlantPot(200, 200, true)
-let pot5 = new PlantPot(210, 290, true)
+let pot2 = new PlantPot(0, 100, true)
+let pot3 = new PlantPot(0, 200, true)
+let pot4 = new PlantPot(0, 300, true)
+let pot5 = new PlantPot(0, 400, true)
 
 // Plantpot array
 let plantPots = [pot1, pot2, pot3, pot4, pot5]
@@ -29,7 +29,7 @@ let itemTypes = ['Seed Packet', 'Watering Can', 'Trash Can']
 
 // Seed Setup
 let tomatoSeeds = new SeedPacket(10, 'TomatoSeed', 20)
-let basilSeeds = new SeedPacket(5, 'BasilSeed', 5)
+let basilSeeds = new SeedPacket(5, 'BasilSeed', 5000)
 //let tomatoSeeds = new SeedPacket(10, 'TomatoSeed')
 
 //Item Setup

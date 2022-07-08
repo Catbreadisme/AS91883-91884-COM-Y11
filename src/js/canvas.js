@@ -42,30 +42,7 @@ function canvasStart() {
     gameActive = true //
     
     // Setup of save data
-    globalTick = localStorage.getItem('GlobalTick')
-    money = parseInt(localStorage.getItem("Money"))
-    //Hotbar Save Data (test)
-    hotBarSlots[1].item = localStorage.getItem("storedItem2")
-    hotBarSlots[2].item = localStorage.getItem("storedItem3")
-    hotBarSlots[3].item = localStorage.getItem("storedItem4")
-    hotBarSlots[4].item = localStorage.getItem("storedItem5")
-    hotBarSlots[5].item = localStorage.getItem("storedItem6")
-
-    hotBarSlots[1].itemType = itemTypes[0]
-    hotBarSlots[1].item = tomatoSeeds
-    hotBarSlots[1].hasItem = true
-
-    hotBarSlots[2].itemType = itemTypes[0]
-    hotBarSlots[2].item = basilSeeds
-    hotBarSlots[2].hasItem = true
-
-    hotBarSlots[0].itemType = wateringCan.itemType
-    hotBarSlots[0].item = wateringCan
-    hotBarSlots[0].hasItem = true
-
-    hotBarSlots[8].itemType = trashCan.itemType
-    hotBarSlots[8].item = trashCan
-    hotBarSlots[8].hasItem = true
+    localStorageGet()
     
     fps = setInterval(canvasUpdate, 0.6) //The amount of times the canvas is called in a second. (Currently 60Fps)
     ticks = setInterval(tickSystem, 1000)
@@ -95,7 +72,7 @@ function tickSystem(){
 
     growSeeds() // Runs grow seeds function which checks if a seed can grow, check input.js for more
     
-    document.getElementById("money").innerHTML = "Wallet: " + money // Displays the wallet, to be worked into the canvas soon
+    //document.getElementById("money").innerHTML = "Wallet: " + money // Displays the wallet, to be worked into the canvas soon
     
 }
 
@@ -107,10 +84,10 @@ function canvasUpdate() {
     // Draws the seeds first because js is a semi syncronus language
     for(let i = 0; i < plantPots.length; i++){
       if(plantPots[i].seedPlanted && plantPots[i].stage1 == true){
-        ctx.drawImage(tempImg, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
+        ctx.drawImage(plantPots[i].seedInPot.stage1Image, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
       }
       else if (plantPots[i].seedPlanted && plantPots[i].stage2 == true){
-        ctx.drawImage(hotBarSlots[i].hotBarImage, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
+        ctx.drawImage(plantPots[i].seedInPot.stage2Image, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
       }
     }
 
@@ -138,4 +115,9 @@ function canvasUpdate() {
         ctx.drawImage(hotBarSlots[i].item.itemImage, hotBarSlots[i].xPos +15, hotBarSlots[i].yPos+15, hotBarSlots[i].xSize -30, hotBarSlots[i].ySize - 30)
       }
     }
+    ctx.fillStyle = 'White'
+    ctx.fillRect(650, 0, 200, 70)
+    ctx.fillStyle = 'Black'
+    ctx.font = '20px Arial'
+    ctx.fillText("Wallet " + money, 675, 40)
     }
