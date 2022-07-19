@@ -29,9 +29,9 @@ let itemTypes = ['Seed Packet', 'Watering Can', 'Trash Can']
 
 // Seed Setup
 let tomatoSeeds = new SeedPacket(10, 'TomatoSeed', 20)
-let basilSeeds = new SeedPacket(5, 'BasilSeed', 5000)
+let basilSeeds = new SeedPacket(5, 'BasilSeed', 5)
 //let tomatoSeeds = new SeedPacket(10, 'TomatoSeed')
 
 //Item Setup
-let wateringCan = new Item('Watering Can', 1, 'images/Watering Can Test.png')
-let trashCan = new Item('Trash Can', 2, 'images/test.png')
+let wateringCan = new Item('Watering Can', itemTypes[1], 'images/Watering Can Test.png')
+let trashCan = new Item('Trash Can', itemTypes[2], 'images/test.png')

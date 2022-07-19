@@ -115,7 +115,7 @@ let ySize = 100
         }
     }
     function wateringCanSelected(i){
-        if(hotBarSlots[hotBarSlot].itemType == 1 && plantPots[i].seedPlanted){
+        if(hotBarSlots[hotBarSlot].itemType == itemTypes[1] && plantPots[i].seedPlanted){
             return true
         }
         else{
@@ -123,7 +123,7 @@ let ySize = 100
         }
     }
     function trashCanSelected(i){
-        if(hotBarSlots[hotBarSlot].itemType == 2 && plantPots[i].seedPlanted){
+        if(hotBarSlots[hotBarSlot].itemType == itemTypes[2] && plantPots[i].seedPlanted){
             return true
         }
         else{
@@ -137,13 +137,9 @@ let ySize = 100
 
         if(key >=1 && key <= 9){ // Checks if the key pressed is one of the hotbar keys
             hotBarSlots[hotBarSlot].selected = false // This stops multiple slots for being selected at once
-            //hotBarSlots[hotBarSlot].colour = '#000000'
-
 
             hotBarSlot = key -1 // Offsets because its an array and arrays start at 0
-            //console.log(hotBarSlot)
             hotBarSlotKey = key // Used to check the hotbar is in use
-            //hotBarSlot = hotBarSlot -1
             hotBar() // Calls the hotbar function
         }
     }
@@ -151,11 +147,7 @@ let ySize = 100
     function hotBar() {
         if (hotBarSlotKey >= 1 && hotBarSlotKey <= hotBarSlots.length){
             hotBarSlots[hotBarSlot].selected = true // Selects the slot pressed
-            //console.log(hotBarSlots[hotBarSlot])
             if (hotBarSlots[hotBarSlot].selected){
-                //console.log(hotBarSlots[hotBarSlot])
-                //hotBarSlots[hotBarSlot].colour = '#979998'
-                //hotBarSlots[hotBarSlot].item = checkItem()
                 console.log(hotBarSlots[hotBarSlot].item) // logs the item
                 console.log(hotBarSlots[hotBarSlot].itemType) // Logs the itemtype
             }
@@ -176,19 +168,21 @@ let ySize = 100
         // Global Data
         globalTick = localStorage.getItem('GlobalTick') // Gets the global tick
         let moneyHold = parseInt(localStorage.getItem("Money")) //Converts the money to an int
-        if(typeof moneyHold === "number"){ // Checks if the money is a number, fixes a bug that causes money to be NAN
-            money = moneyHold // Money is now set
+        if(isNaN(moneyHold)){ // Fixes a bug that causes money to be NaN on first run
+           moneyHold = 0
+           money = moneyHold
         }
         else {
-            money = 0
+            money = moneyHold
         }
         
         //Hotbar Save Data (test)
-        hotBarSlots[1].item = localStorage.getItem("storedItem2")
-        hotBarSlots[2].item = localStorage.getItem("storedItem3")
-        hotBarSlots[3].item = localStorage.getItem("storedItem4")
-        hotBarSlots[4].item = localStorage.getItem("storedItem5")
-        hotBarSlots[5].item = localStorage.getItem("storedItem6")
+        for(let i = 0; i < hotBarSlots.length; i++){
+            let slotItem = i + 1
+            if (localStorage.getItem("storedItem"+slotItem) != null){
+                hotBarSlots[i].item = localStorage.getItem("storedItem"+slotItem)
+            }
+        }
 
         // Item Setup (test)
         hotBarSlots[1].itemType = itemTypes[0]
