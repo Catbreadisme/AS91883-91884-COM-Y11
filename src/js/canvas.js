@@ -37,6 +37,25 @@ let plantYOffset = 75;
 let hotbarPosOffset = 15;
 let hotbarSizeOffset = 30;
 
+// Shop And Money Variables
+let shopButtonPosX = 650
+let shopButtonPosY = 650
+
+let shopPosX = 350
+let shopPosY = 350
+let shopSizeX = 450
+let shopSizeY = 300
+
+let shopBottomSizeX = 300
+
+let shopItemSize = 50
+let shopItemPosX;
+let shopItemPosY;
+let shopItemSpacing = 75;
+
+let sideDisplayXSize = 200
+let sideDisplayYSize = 70
+
 // Start the Program
 window.onload = canvasStart
 
@@ -133,13 +152,64 @@ function canvasUpdate() {
       }
     }
     ctx.fillStyle = 'White'
-    ctx.fillRect(650, 0, 200, 70)
+    ctx.fillRect(shopButtonPosX, 0, sideDisplayXSize, sideDisplayYSize)
+
+    ctx.fillRect(shopButtonPosX, shopButtonPosY, sideDisplayXSize, sideDisplayYSize)
+
     ctx.fillStyle = 'Black'
     ctx.font = '20px Arial'
     ctx.fillText("Wallet " + money, 675, 40)
+    ctx.fillText('Shop', 700, 695)
 
     if(itemSelectDisplay != undefined){
       ctx.fillText(itemSelectDisplay, 325, 700)
     }
-    
+
+    if(shopOpen){
+      let shopRow = 1
+
+      ctx.globalAlpha = 0.5
+      ctx.fillStyle = 'White'
+      ctx.fillRect(shopPosX, shopPosY, shopSizeX, shopSizeY)
+      ctx.fillRect(shopPosX, shopPosY+shopSizeY, shopBottomSizeX, sideDisplayYSize)
+      ctx.globalAlpha = 1
+
+      shopItemPosX = shopPosX + 25
+      shopItemPosY = shopPosY + 25
+
+      
+      for(let i = 0; i < SeedPackets.length; i++){
+        ctx.drawImage(SeedPackets[i].itemImage, shopItemPosX, shopItemPosY, shopItemSize, shopItemSize)
+
+        if(mousePressed){
+          
+          if(mouseEventShop.offsetX >= shopItemPosX && 
+            mouseEventShop.offsetY >= shopItemPosY && 
+            mouseEventShop.offsetX <= shopItemPosX + shopItemSize &&
+            mouseEventShop.offsetY <= shopItemPosY + shopItemSize) // Collision code for the objects
+              {
+                if(!hotBarSlots[hotBarSlot].hasItem || hotBarSlots[hotBarSlot].item == SeedPackets[i]){
+                  hotBarSlots[hotBarSlot].item = SeedPackets[i]
+                  hotBarSlots[hotBarSlot].itemType = itemTypes[0]
+                  hotBarSlots[hotBarSlot].hasItem = true
+                  hotBarSlots[hotBarSlot].itemAmmount = hotBarSlots[hotBarSlot].itemAmmount + 1
+                }
+                
+              }
+      }
+
+        if(shopItemPosX <= 700){
+          shopItemPosX = shopItemPosX + shopItemSpacing
+        }
+        else{
+          shopItemPosX = shopPosX + 25
+          shopItemPosY = shopPosY + 25 + shopItemSpacing
+        }
+        //console.log(shopItemPosX)
+        
+        
+      }
+      
+
     }
+}

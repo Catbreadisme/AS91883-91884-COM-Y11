@@ -10,6 +10,7 @@ let ySize = 100
         window.addEventListener("mousedown", onDown, {})
         window.addEventListener("mouseup", onUp, {})
         window.addEventListener("keydown", keyDown)
+
     }   
 
     // Offsets Object
@@ -24,11 +25,24 @@ let ySize = 100
     let hotBarSlotKey = 1;          // Sets the HotbarSlotKey to 1 by default
     //let holdTime;
     let savedTick;
+    let shopOpen = false;
+    let mouseEventShop;
     
     // Called when the mouse is clicked
     function onDown(mouseEvent) {
         mousePressed = true // Mouse is down
+        mouseEventShop = mouseEvent
         
+        if(shopClicked(mouseEvent)){
+            if(!shopOpen){
+                shopOpen = true;
+                console.log('Open Sesame')
+            }
+            else{
+                shopOpen = false;
+            }
+        }
+
         for (let i = 0; i < plantPots.length; i++){
             
             if(objectDetectedBool(mouseEvent, i, {once: true})){
@@ -210,3 +224,19 @@ let ySize = 100
         hotBarSlots[8].hasItem = true
         hotBarSlots[8].itemAmmount = 1
     }
+
+    function shopClicked(mouseEvent){
+        if(mouseEvent.offsetX >= shopButtonPosY && 
+            mouseEvent.offsetY >= shopButtonPosY && 
+            mouseEvent.offsetX <= shopButtonPosX + sideDisplayXSize &&
+            mouseEvent.offsetY <= shopButtonPosY + sideDisplayYSize) // Collision code for the objects
+            {
+                return true; // return true if collision
+            }else{
+                return false; // return false if no collision
+            }
+    }
+
+   
+    
+    
