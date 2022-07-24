@@ -196,7 +196,7 @@ function canvasUpdate() {
                 }
                 
               }
-      }
+        }
 
         if(shopItemPosX <= 700){
           shopItemPosX = shopItemPosX + shopItemSpacing

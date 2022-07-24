@@ -32,12 +32,9 @@ let tomatoSeeds = new SeedPacket(10, 'TomatoSeed', 20, 'images/TomatoSeeds.png',
 let basilSeeds = new SeedPacket(5, 'BasilSeed', 5, 'images/BasilSeeds.png', 0, 'images/BasilPlant.png')
 let limeSeeds = new SeedPacket(20, 'LimeSeeds', 40, 'images/test.png', 0, 'images/HotbarSlot.png')
 let heartleafSeeds = new SeedPacket(5, 'HeartleafSeeds', 3, 'images/test.png', 0, 'images/HotbarSlot.png')
-let hartleafSeeds = new SeedPacket(5, 'Heartleaeeds', 3, 'images/test.png', 0, 'images/HotbarSlot.png')
-let hearteafSeeds = new SeedPacket(5, 'HeartlfSeeds', 3, 'images/test.png', 0, 'images/HotbarSlot.png')
-let heartleaSeeds = new SeedPacket(5, 'Hea', 3, 'images/test.png', 0, 'images/HotbarSlot.png')
-let hearleaSeeds = new SeedPacket(5, 'Hea', 3, 'images/test.png', 0, 'images/HotbarSlot.png')
 
-let SeedPackets = [tomatoSeeds, basilSeeds, limeSeeds, heartleafSeeds, hearteafSeeds, hartleafSeeds, heartleaSeeds, hearleaSeeds]
+
+let SeedPackets = [tomatoSeeds, basilSeeds, limeSeeds, heartleafSeeds]
 
 //Item Setup
 let wateringCan = new Item('Watering Can', itemTypes[1], 'images/Watering Can Test.png')
