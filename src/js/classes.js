@@ -34,6 +34,7 @@ class PlantPot {
         this.item = 'Empty'
         this.itemType = 'Empty'
         this.hasItem = false
+        this.itemAmmount = 0;
   
         this.hotBarImage = new Image
         this.hotBarImage.src = 'images/HotbarSlot.png'
@@ -44,18 +45,18 @@ class PlantPot {
   }
   // SeedPacket Class
   class SeedPacket{
-    constructor(ticksToGrow, seedType, value){
-      this.seedType = seedType
+    constructor(ticksToGrow, seedType, value, itemImage, stage1Image, stage2Image){
+      this.itemName = seedType
       this.ticksToGrow = ticksToGrow
       this.value = value
-      //this.growStages
+
       this.itemImage = new Image
-      this.itemImage.src = 'images/test.png'
+      this.itemImage.src = itemImage
 
       this.stage1Image = new Image
       this.stage1Image.src = 'images/test.png'
       this.stage2Image = new Image
-      this.stage2Image.src = 'images/HotbarSlot.png'
+      this.stage2Image.src = stage2Image
     }
   }
   

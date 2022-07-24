@@ -48,6 +48,8 @@ let ySize = 100
                     plantPots[i].savedTick = globalTick
                     console.log(plantPots[i].seedPlanted) //Logs for testing
                     console.log(plantPots[i].seedInPot) //Logs for testing
+                    hotBarSlots[hotBarSlot].itemAmmount = hotBarSlots[hotBarSlot].itemAmmount -1
+                    console.log(hotBarSlots[hotBarSlot].itemAmmount)
                     
                     //holdTime = activeTime
                 }
@@ -105,9 +107,8 @@ let ySize = 100
             }
     }
     function seedPacketSelected(i){
-        if(hotBarSlots[hotBarSlot].itemType == itemTypes[0] && !plantPots[i].seedPlanted) //Checks if they item in the hot bar is a seed packet
+        if(hotBarSlots[hotBarSlot].itemType == itemTypes[0] && !plantPots[i].seedPlanted) //Checks if the item in the hot bar is a seed packet
         {
-            console.log('planting') //Logs for testing
             return true 
         }
         else{
@@ -148,8 +149,12 @@ let ySize = 100
         if (hotBarSlotKey >= 1 && hotBarSlotKey <= hotBarSlots.length){
             hotBarSlots[hotBarSlot].selected = true // Selects the slot pressed
             if (hotBarSlots[hotBarSlot].selected){
-                console.log(hotBarSlots[hotBarSlot].item) // logs the item
-                console.log(hotBarSlots[hotBarSlot].itemType) // Logs the itemtype
+                itemSelectDisplay = hotBarSlots[hotBarSlot].item.itemName // Sets the display to the current held item
+                if(itemSelectDisplay == undefined){ // If there is no item make the item display empty
+                    itemSelectDisplay = 'Empty'
+                }
+                console.log(itemSelectDisplay) // Logs item for testing
+                console.log(hotBarSlots[hotBarSlot].item) // logs the item data for testing
             }
         }
 
@@ -188,16 +193,20 @@ let ySize = 100
         hotBarSlots[1].itemType = itemTypes[0]
         hotBarSlots[1].item = tomatoSeeds
         hotBarSlots[1].hasItem = true
+        hotBarSlots[1].itemAmmount = 5;
 
         hotBarSlots[2].itemType = itemTypes[0]
         hotBarSlots[2].item = basilSeeds
         hotBarSlots[2].hasItem = true
+        hotBarSlots[2].itemAmmount = 5;
 
         hotBarSlots[0].itemType = wateringCan.itemType
         hotBarSlots[0].item = wateringCan
         hotBarSlots[0].hasItem = true
+        hotBarSlots[0].itemAmmount = 1
 
         hotBarSlots[8].itemType = trashCan.itemType
         hotBarSlots[8].item = trashCan
         hotBarSlots[8].hasItem = true
+        hotBarSlots[8].itemAmmount = 1
     }

@@ -27,13 +27,18 @@ doc.setAttribute("height", HEIGHT);
 // Game management variables
 let gameActive; // Shows if game is active
 var ctx; // Canvas context variable
+let itemSelectDisplay; // Keeps Item Stored For Display
+
+
+//Offsets
+let plantXOffset = 25;
+let plantYOffset = 75;
+
+let hotbarPosOffset = 15;
+let hotbarSizeOffset = 30;
 
 // Start the Program
 window.onload = canvasStart
-
-// Temp Image for testing
-let tempImg = new Image;
-tempImg.src = 'images/test.png'
 
 let money = 0;
 
@@ -72,6 +77,12 @@ function tickSystem(){
 
     growSeeds() // Runs grow seeds function which checks if a seed can grow, check input.js for more
     
+    if (hotBarSlots[hotBarSlot].itemAmmount <= 0){
+      hotBarSlots[hotBarSlot].item = 'Empty'
+      hotBarSlots[hotBarSlot].itemType = 'Empty'
+      hotBarSlots[hotBarSlot].hasItem = false
+      hotBarSlots[hotBarSlot].itemAmmount = 0
+    }
     //document.getElementById("money").innerHTML = "Wallet: " + money // Displays the wallet, to be worked into the canvas soon
     
 }
@@ -80,14 +91,14 @@ function tickSystem(){
 function canvasUpdate() {
   
     ctx.clearRect(0, 0, WIDTH, HEIGHT) // Clears the canvas, eliminates mess
-
-    // Draws the seeds first because js is a semi syncronus language
+ 
+    // Draws the seeds first to display behind the pots
     for(let i = 0; i < plantPots.length; i++){
       if(plantPots[i].seedPlanted && plantPots[i].stage1 == true){
-        ctx.drawImage(plantPots[i].seedInPot.stage1Image, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
+        ctx.drawImage(plantPots[i].seedInPot.stage1Image, plantPots[i].xPosition+plantXOffset, plantPots[i].yPosition, xSize -50, ySize-50)
       }
       else if (plantPots[i].seedPlanted && plantPots[i].stage2 == true){
-        ctx.drawImage(plantPots[i].seedInPot.stage2Image, plantPots[i].xPosition+25, plantPots[i].yPosition, xSize -50, ySize-50)
+        ctx.drawImage(plantPots[i].seedInPot.stage2Image, plantPots[i].xPosition, plantPots[i].yPosition - plantYOffset, xSize, ySize)
       }
     }
 
@@ -112,7 +123,13 @@ function canvasUpdate() {
       }
 
       if(hotBarSlots[i].hasItem){
-        ctx.drawImage(hotBarSlots[i].item.itemImage, hotBarSlots[i].xPos +15, hotBarSlots[i].yPos+15, hotBarSlots[i].xSize -30, hotBarSlots[i].ySize - 30)
+        ctx.drawImage(hotBarSlots[i].item.itemImage, hotBarSlots[i].xPos +hotbarPosOffset, hotBarSlots[i].yPos+hotbarPosOffset, hotBarSlots[i].xSize -hotbarSizeOffset, hotBarSlots[i].ySize - hotbarSizeOffset)
+        
+        if(hotBarSlots[i].itemType == itemTypes[0]){
+          ctx.fillStyle = 'Black'
+          ctx.font = '20px Arial'
+          ctx.fillText(hotBarSlots[i].itemAmmount, hotBarSlots[i].xPos +hotbarPosOffset, hotBarSlots[i].yPos+hotbarPosOffset)
+        }
       }
     }
     ctx.fillStyle = 'White'
@@ -120,4 +137,9 @@ function canvasUpdate() {
     ctx.fillStyle = 'Black'
     ctx.font = '20px Arial'
     ctx.fillText("Wallet " + money, 675, 40)
+
+    if(itemSelectDisplay != undefined){
+      ctx.fillText(itemSelectDisplay, 325, 700)
+    }
+    
     }

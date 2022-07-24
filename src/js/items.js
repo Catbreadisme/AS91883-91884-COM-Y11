@@ -28,10 +28,11 @@ let plantPots = [pot1, pot2, pot3, pot4, pot5]
 let itemTypes = ['Seed Packet', 'Watering Can', 'Trash Can']
 
 // Seed Setup
-let tomatoSeeds = new SeedPacket(10, 'TomatoSeed', 20)
-let basilSeeds = new SeedPacket(5, 'BasilSeed', 5)
-//let tomatoSeeds = new SeedPacket(10, 'TomatoSeed')
+let tomatoSeeds = new SeedPacket(10, 'TomatoSeed', 20, 'images/TomatoSeeds.png', 0, 'images/TomatoVine.png')
+let basilSeeds = new SeedPacket(5, 'BasilSeed', 5, 'images/BasilSeeds.png', 0, 'images/BasilPlant.png')
+let limeSeeds = new SeedPacket(20, 'LimeSeeds', 40, 'images/test.png', 0, 'images/HotbarSlot.png')
+let heartleafSeeds = new SeedPacket(5, 'HeartleafSeeds', 3, 'images/test.png', 0, 'images/HotbarSlot.png')
 
 //Item Setup
 let wateringCan = new Item('Watering Can', itemTypes[1], 'images/Watering Can Test.png')
-let trashCan = new Item('Trash Can', itemTypes[2], 'images/test.png')
+let trashCan = new Item('Trash Can', itemTypes[2], 'images/Trash man.png')
