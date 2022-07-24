@@ -10,7 +10,7 @@ let ySize = 100
         window.addEventListener("mousedown", onDown, {})
         window.addEventListener("mouseup", onUp, {})
         window.addEventListener("keydown", keyDown)
-
+        window.addEventListener("click", onClick)
     }   
 
     // Offsets Object
@@ -27,6 +27,7 @@ let ySize = 100
     let savedTick;
     let shopOpen = false;
     let mouseEventShop;
+    let click;
     
     // Called when the mouse is clicked
     function onDown(mouseEvent) {
@@ -163,10 +164,6 @@ let ySize = 100
         if (hotBarSlotKey >= 1 && hotBarSlotKey <= hotBarSlots.length){
             hotBarSlots[hotBarSlot].selected = true // Selects the slot pressed
             if (hotBarSlots[hotBarSlot].selected){
-                itemSelectDisplay = hotBarSlots[hotBarSlot].item.itemName // Sets the display to the current held item
-                if(itemSelectDisplay == undefined){ // If there is no item make the item display empty
-                    itemSelectDisplay = 'Empty'
-                }
                 console.log(itemSelectDisplay) // Logs item for testing
                 console.log(hotBarSlots[hotBarSlot].item) // logs the item data for testing
             }
@@ -237,6 +234,13 @@ let ySize = 100
             }
     }
 
+    function onClick(mouseEventShop){
+        if(shopOpen){
+            
+        }
+            
+      
+    }
    
     
     

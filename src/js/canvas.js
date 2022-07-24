@@ -53,6 +53,8 @@ let shopItemPosX;
 let shopItemPosY;
 let shopItemSpacing = 75;
 
+let shopBuyOnce = false;
+
 let sideDisplayXSize = 200
 let sideDisplayYSize = 70
 
@@ -109,6 +111,8 @@ function tickSystem(){
 // Updates 60 times per seconds, see fps
 function canvasUpdate() {
   
+
+    //click = false
     ctx.clearRect(0, 0, WIDTH, HEIGHT) // Clears the canvas, eliminates mess
  
     // Draws the seeds first to display behind the pots
@@ -151,6 +155,10 @@ function canvasUpdate() {
         }
       }
     }
+    itemSelectDisplay = hotBarSlots[hotBarSlot].item.itemName // Sets the display to the current held item
+    if(itemSelectDisplay == undefined){ // If there is no item make the item display empty
+        itemSelectDisplay = 'Empty'
+    }
     ctx.fillStyle = 'White'
     ctx.fillRect(shopButtonPosX, 0, sideDisplayXSize, sideDisplayYSize)
 
@@ -165,51 +173,44 @@ function canvasUpdate() {
       ctx.fillText(itemSelectDisplay, 325, 700)
     }
 
-    if(shopOpen){
-      let shopRow = 1
+    shopItemPosX = shopPosX + 25
+      shopItemPosY = shopPosY + 25
 
+    if(shopOpen){
       ctx.globalAlpha = 0.5
       ctx.fillStyle = 'White'
       ctx.fillRect(shopPosX, shopPosY, shopSizeX, shopSizeY)
       ctx.fillRect(shopPosX, shopPosY+shopSizeY, shopBottomSizeX, sideDisplayYSize)
       ctx.globalAlpha = 1
-
-      shopItemPosX = shopPosX + 25
-      shopItemPosY = shopPosY + 25
-
       
+      
+
       for(let i = 0; i < SeedPackets.length; i++){
         ctx.drawImage(SeedPackets[i].itemImage, shopItemPosX, shopItemPosY, shopItemSize, shopItemSize)
-
+        //console.log(click)
+        
         if(mousePressed){
-          
           if(mouseEventShop.offsetX >= shopItemPosX && 
             mouseEventShop.offsetY >= shopItemPosY && 
             mouseEventShop.offsetX <= shopItemPosX + shopItemSize &&
             mouseEventShop.offsetY <= shopItemPosY + shopItemSize) // Collision code for the objects
               {
+                
                 if(!hotBarSlots[hotBarSlot].hasItem || hotBarSlots[hotBarSlot].item == SeedPackets[i]){
                   hotBarSlots[hotBarSlot].item = SeedPackets[i]
                   hotBarSlots[hotBarSlot].itemType = itemTypes[0]
                   hotBarSlots[hotBarSlot].hasItem = true
                   hotBarSlots[hotBarSlot].itemAmmount = hotBarSlots[hotBarSlot].itemAmmount + 1
                 }
-                
-              }
         }
-
-        if(shopItemPosX <= 700){
-          shopItemPosX = shopItemPosX + shopItemSpacing
-        }
-        else{
-          shopItemPosX = shopPosX + 25
-          shopItemPosY = shopPosY + 25 + shopItemSpacing
-        }
-        //console.log(shopItemPosX)
-        
-        
       }
-      
-
+      if(shopItemPosX <= 700){
+        shopItemPosX = shopItemPosX + shopItemSpacing
+      }
+      else{
+        shopItemPosX = shopPosX + 25
+        shopItemPosY = shopPosY + 25 + shopItemSpacing
+      }
+      }
     }
-}
+  }
