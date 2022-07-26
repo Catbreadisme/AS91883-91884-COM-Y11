@@ -105,6 +105,8 @@ function tickSystem(){
       hotBarSlots[hotBarSlot].itemAmmount = 0
     }
     //document.getElementById("money").innerHTML = "Wallet: " + money // Displays the wallet, to be worked into the canvas soon
+
+    localStorageSave() // Overwrites the local storage save automaticaly
     
 }
 
@@ -135,14 +137,14 @@ function canvasUpdate() {
       // Draws Selected hotbar slot
       if(hotBarSlots[i].selected){
         ctx.fillStyle = "Black"
-        ctx.drawImage(hotBarSlots[i].hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
+        ctx.drawImage(hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
         ctx.globalAlpha = 0.3
         ctx.fillRect(hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
         ctx.globalAlpha = 1
       }
       // Draws unselected hotbar slot
       else{
-        ctx.drawImage(hotBarSlots[i].hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
+        ctx.drawImage(hotBarImage, hotBarSlots[i].xPos, hotBarSlots[i].yPos, hotBarSlots[i].xSize, hotBarSlots[i].ySize)
       }
 
       if(hotBarSlots[i].hasItem){
@@ -158,6 +160,9 @@ function canvasUpdate() {
     itemSelectDisplay = hotBarSlots[hotBarSlot].item.itemName // Sets the display to the current held item
     if(itemSelectDisplay == undefined){ // If there is no item make the item display empty
         itemSelectDisplay = 'Empty'
+    }
+    else if (hotBarSlots[hotBarSlot].itemType == itemTypes[0]){
+      itemSelectDisplay = itemSelectDisplay +" Seeds"
     }
     ctx.fillStyle = 'White'
     ctx.fillRect(shopButtonPosX, 0, sideDisplayXSize, sideDisplayYSize)
@@ -187,20 +192,20 @@ function canvasUpdate() {
 
       for(let i = 0; i < SeedPackets.length; i++){
         ctx.drawImage(SeedPackets[i].itemImage, shopItemPosX, shopItemPosY, shopItemSize, shopItemSize)
-        //console.log(click)
         
-        if(mousePressed){
+        if(mousePressed && shopBuyOnce){
           if(mouseEventShop.offsetX >= shopItemPosX && 
             mouseEventShop.offsetY >= shopItemPosY && 
             mouseEventShop.offsetX <= shopItemPosX + shopItemSize &&
             mouseEventShop.offsetY <= shopItemPosY + shopItemSize) // Collision code for the objects
               {
                 
-                if(!hotBarSlots[hotBarSlot].hasItem || hotBarSlots[hotBarSlot].item == SeedPackets[i]){
+                if(!hotBarSlots[hotBarSlot].hasItem || hotBarSlots[hotBarSlot].item.itemName == SeedPackets[i].itemName){
                   hotBarSlots[hotBarSlot].item = SeedPackets[i]
                   hotBarSlots[hotBarSlot].itemType = itemTypes[0]
                   hotBarSlots[hotBarSlot].hasItem = true
                   hotBarSlots[hotBarSlot].itemAmmount = hotBarSlots[hotBarSlot].itemAmmount + 1
+                  shopBuyOnce = false
                 }
         }
       }

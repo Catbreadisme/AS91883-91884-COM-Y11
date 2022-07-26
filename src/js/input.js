@@ -10,7 +10,6 @@ let ySize = 100
         window.addEventListener("mousedown", onDown, {})
         window.addEventListener("mouseup", onUp, {})
         window.addEventListener("keydown", keyDown)
-        window.addEventListener("click", onClick)
     }   
 
     // Offsets Object
@@ -107,6 +106,7 @@ let ySize = 100
         mouseMoveActive = false; // Object no longer moves
         objectSelected = false; // Object is no longer selected
         doc.style.cursor = 'default'; // Sets cursor back to default
+        shopBuyOnce = true
     }
 
     // Called when mouse is down, and checks for object collision
@@ -182,6 +182,9 @@ let ySize = 100
     }
     function localStorageGet(){
         // Global Data
+
+        
+
         globalTick = localStorage.getItem('GlobalTick') // Gets the global tick
         let moneyHold = parseInt(localStorage.getItem("Money")) //Converts the money to an int
         if(isNaN(moneyHold)){ // Fixes a bug that causes money to be NaN on first run
@@ -194,22 +197,35 @@ let ySize = 100
         
         //Hotbar Save Data (test)
         for(let i = 0; i < hotBarSlots.length; i++){
-            let slotItem = i + 1
-            if (localStorage.getItem("storedItem"+slotItem) != null){
-                hotBarSlots[i].item = localStorage.getItem("storedItem"+slotItem)
+            if (JSON.parse(localStorage.getItem("hotBarSlot"+i)) != null){
+                hotBarSlots[i] = JSON.parse(localStorage.getItem("hotBarSlot"+i))
+                //let imageData = localStorage.getItem("hotBarItemImage")
+                if(hotBarSlots[i].itemType == itemTypes[0]){
+                    hotBarSlots[i].item.itemImage = new Image;
+                    hotBarSlots[i].item.itemImage.src = "images/"+hotBarSlots[i].item.itemName+"Seeds.png"
+                    hotBarSlots[i].item.stage1Image = new Image;
+                    hotBarSlots[i].item.stage1Image.src = "images/test.png"
+                    hotBarSlots[i].item.stage2Image = new Image;
+                    hotBarSlots[i].item.stage2Image.src = "images/"+hotBarSlots[i].item.itemName+"Plant.png"    
+                }                 
+                console.log(hotBarSlots[i])
+                hotBarSlots[i].selected = false
+            }
+            else{
+                // Item Setup (test)
+                hotBarSlots[1].itemType = itemTypes[0]
+                hotBarSlots[1].item = tomatoSeeds
+                hotBarSlots[1].hasItem = true
+                hotBarSlots[1].itemAmmount = 5;
+
+                hotBarSlots[2].itemType = itemTypes[0]
+                hotBarSlots[2].item = basilSeeds
+                hotBarSlots[2].hasItem = true
+                hotBarSlots[2].itemAmmount = 5;
             }
         }
 
-        // Item Setup (test)
-        hotBarSlots[1].itemType = itemTypes[0]
-        hotBarSlots[1].item = tomatoSeeds
-        hotBarSlots[1].hasItem = true
-        hotBarSlots[1].itemAmmount = 5;
-
-        hotBarSlots[2].itemType = itemTypes[0]
-        hotBarSlots[2].item = basilSeeds
-        hotBarSlots[2].hasItem = true
-        hotBarSlots[2].itemAmmount = 5;
+        hotBarSlots[0].selected = true
 
         hotBarSlots[0].itemType = wateringCan.itemType
         hotBarSlots[0].item = wateringCan
@@ -233,14 +249,8 @@ let ySize = 100
                 return false; // return false if no collision
             }
     }
-
-    function onClick(mouseEventShop){
-        if(shopOpen){
-            
+    function localStorageSave(){
+        for(let i = 0; i < hotBarSlots.length; i++){
+                localStorage.setItem("hotBarSlot"+i, JSON.stringify(hotBarSlots[i]))
         }
-            
-      
     }
-   
-    
-    

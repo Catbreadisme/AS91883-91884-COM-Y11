@@ -35,9 +35,6 @@ class PlantPot {
         this.itemType = 'Empty'
         this.hasItem = false
         this.itemAmmount = 0;
-  
-        this.hotBarImage = new Image
-        this.hotBarImage.src = 'images/HotbarSlot.png'
       }
   
       
