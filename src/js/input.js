@@ -73,16 +73,18 @@ let ySize = 100
                     }
                 }
                 if(trashCanSelected(i)){
-                    //Delete sum shit ay
-                    money = money + plantPots[i].seedInPot.value
-                    console.log(money)
-                    money = parseInt(money)
-                    localStorage.setItem('Money', money)
-                    plantPots[i].seedPlanted = false
-                    plantPots[i].seedInPot = 'Empty'
-                    plantPots[i].stage1 = true
-                    plantPots[i].stage2 = false
-                    plantPots[i].isWatered = false
+                    if(plantPots[i].stage2){
+                        money = money + plantPots[i].seedInPot.value
+                        console.log(money)
+                        money = parseInt(money)
+                        localStorage.setItem('Money', money)
+                        plantPots[i].seedPlanted = false
+                        plantPots[i].seedInPot = 'Empty'
+                        plantPots[i].stage1 = true
+                        plantPots[i].stage2 = false
+                        plantPots[i].isWatered = false
+                    }
+                    
                 }
             }
         }
