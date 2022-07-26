@@ -42,10 +42,11 @@ class PlantPot {
   }
   // SeedPacket Class
   class SeedPacket{
-    constructor(ticksToGrow, seedType, value, itemImage, stage1Image, stage2Image){
+    constructor(ticksToGrow, seedType, value, itemImage, stage1Image, stage2Image, price){
       this.itemName = seedType
       this.ticksToGrow = ticksToGrow
       this.value = value
+      this.price = price
 
       this.itemImage = new Image
       this.itemImage.src = itemImage

@@ -200,11 +200,12 @@ function canvasUpdate() {
             mouseEventShop.offsetY <= shopItemPosY + shopItemSize) // Collision code for the objects
               {
                 
-                if(!hotBarSlots[hotBarSlot].hasItem || hotBarSlots[hotBarSlot].item.itemName == SeedPackets[i].itemName){
+                if(!hotBarSlots[hotBarSlot].hasItem || hotBarSlots[hotBarSlot].item.itemName == SeedPackets[i].itemName && money != 0){
                   hotBarSlots[hotBarSlot].item = SeedPackets[i]
                   hotBarSlots[hotBarSlot].itemType = itemTypes[0]
                   hotBarSlots[hotBarSlot].hasItem = true
                   hotBarSlots[hotBarSlot].itemAmmount = hotBarSlots[hotBarSlot].itemAmmount + 1
+                  money = money - hotBarSlots[hotBarSlot].item.price
                   shopBuyOnce = false
                 }
         }

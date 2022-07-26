@@ -182,7 +182,6 @@ let ySize = 100
     }
     function localStorageGet(){
         // Global Data
-
         
 
         globalTick = localStorage.getItem('GlobalTick') // Gets the global tick
@@ -250,6 +249,8 @@ let ySize = 100
             }
     }
     function localStorageSave(){
+        money = parseInt(money)
+        localStorage.setItem('Money', money)
         for(let i = 0; i < hotBarSlots.length; i++){
                 localStorage.setItem("hotBarSlot"+i, JSON.stringify(hotBarSlots[i]))
         }
