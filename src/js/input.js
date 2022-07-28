@@ -72,7 +72,7 @@ let ySize = 100
                         plantPots[i].isWatered = true;
                     }
                 }
-                if(trashCanSelected(i)){
+                if(trashCanSelected(i)){ // Checks if trash can is selected, if so, sells the plant
                     if(plantPots[i].stage2){
                         money = money + plantPots[i].seedInPot.value
                         console.log(money)
@@ -199,21 +199,19 @@ let ySize = 100
         //Hotbar Save Data (test)
         for(let i = 0; i < hotBarSlots.length; i++){
             if (JSON.parse(localStorage.getItem("hotBarSlot"+i)) != null){
-                hotBarSlots[i] = JSON.parse(localStorage.getItem("hotBarSlot"+i))
-                //let imageData = localStorage.getItem("hotBarItemImage")
-                if(hotBarSlots[i].itemType == itemTypes[0]){
+                hotBarSlots[i] = JSON.parse(localStorage.getItem("hotBarSlot"+i)) // Sets hotbar Save Data
+                if(hotBarSlots[i].itemType == itemTypes[0]){ // This sets up the images, which cannot properly be saved in local storage
                     hotBarSlots[i].item.itemImage = new Image;
                     hotBarSlots[i].item.itemImage.src = "images/"+hotBarSlots[i].item.itemName+"Seeds.png"
                     hotBarSlots[i].item.stage1Image = new Image;
-                    hotBarSlots[i].item.stage1Image.src = "images/test.png"
+                    hotBarSlots[i].item.stage1Image.src = "images/seed.png"
                     hotBarSlots[i].item.stage2Image = new Image;
                     hotBarSlots[i].item.stage2Image.src = "images/"+hotBarSlots[i].item.itemName+"Plant.png"    
-                }                 
-                console.log(hotBarSlots[i])
+                }
                 hotBarSlots[i].selected = false
             }
             else{
-                // Item Setup (test)
+                // First play Item Setup
                 hotBarSlots[1].itemType = itemTypes[0]
                 hotBarSlots[1].item = tomatoSeeds
                 hotBarSlots[1].hasItem = true
@@ -225,14 +223,14 @@ let ySize = 100
                 hotBarSlots[2].itemAmmount = 5;
             }
         }
-
+        // Item Setup
         hotBarSlots[0].selected = true
-
+        //Sets up Watering can
         hotBarSlots[0].itemType = wateringCan.itemType
         hotBarSlots[0].item = wateringCan
         hotBarSlots[0].hasItem = true
         hotBarSlots[0].itemAmmount = 1
-
+    //Sets up trash can
         hotBarSlots[8].itemType = trashCan.itemType
         hotBarSlots[8].item = trashCan
         hotBarSlots[8].hasItem = true
@@ -252,8 +250,8 @@ let ySize = 100
     }
     function localStorageSave(){
         money = parseInt(money)
-        localStorage.setItem('Money', money)
+        localStorage.setItem('Money', money) // Saves money
         for(let i = 0; i < hotBarSlots.length; i++){
-                localStorage.setItem("hotBarSlot"+i, JSON.stringify(hotBarSlots[i]))
+                localStorage.setItem("hotBarSlot"+i, JSON.stringify(hotBarSlots[i])) // Saves hotbar
         }
     }

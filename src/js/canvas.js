@@ -1,8 +1,6 @@
 
-// Name: Cat
-// Version Number: Uhhh
-// 
-// 
+// Author: Cat
+// Version Number: 71
 
 // This script controls the game and the canvas
 
@@ -45,18 +43,19 @@ let shopPosX = 350
 let shopPosY = 350
 let shopSizeX = 450
 let shopSizeY = 300
-
 let shopBottomSizeX = 300
 
 let shopItemSize = 50
 let shopItemPosX;
 let shopItemPosY;
 let shopItemSpacing = 75;
-
-let shopBuyOnce = false;
+let shopBuyOnce = true;
 
 let sideDisplayXSize = 200
 let sideDisplayYSize = 70
+
+let walletTextX
+let walletTextY
 
 // Start the Program
 window.onload = canvasStart
@@ -65,7 +64,7 @@ let money = 0;
 
 function canvasStart() {
     ctx = doc.getContext("2d") // Get the canvas element
-    gameActive = true //
+    gameActive = true // Sets game to active
     
     // Setup of save data
     localStorageGet()
@@ -74,9 +73,6 @@ function canvasStart() {
     ticks = setInterval(tickSystem, 1000)
 
     moveStart() // Starts Movement Event Listners
-    for (pots = 0; pots < plantPots.length; pots++){
-      console.log("Start positions ", "X", plantPots[pots].xPosition, "Y", plantPots[pots].yPosition)
-    }
 }
 
 function tickSystem(){
@@ -84,7 +80,8 @@ function tickSystem(){
     localStorage.setItem('GlobalTick', globalTick) //Saves the Global tick between sessions
 
     // All the date stuff is going to be used to extend the tick system
-    globalDate = new Date
+    // This is now depricated and will not be used
+    /* globalDate = new Date
     saveDate = {
       savedYear: globalDate.getFullYear(),
       savedMonth: globalDate.getUTCMonth(),
@@ -93,7 +90,7 @@ function tickSystem(){
       savedMinute: globalDate.getMinutes(),
       savedSecond: globalDate.getSeconds()
     }
-    localStorage.setItem("SaveDate", saveDate)
+    localStorage.setItem("SaveDate", saveDate) */
     // Heres where the date stops
 
     growSeeds() // Runs grow seeds function which checks if a seed can grow, check input.js for more
@@ -104,23 +101,19 @@ function tickSystem(){
       hotBarSlots[hotBarSlot].hasItem = false
       hotBarSlots[hotBarSlot].itemAmmount = 0
     }
-    //document.getElementById("money").innerHTML = "Wallet: " + money // Displays the wallet, to be worked into the canvas soon
-
     localStorageSave() // Overwrites the local storage save automaticaly
     
 }
 
 // Updates 60 times per seconds, see fps
 function canvasUpdate() {
-  
 
-    //click = false
     ctx.clearRect(0, 0, WIDTH, HEIGHT) // Clears the canvas, eliminates mess
  
     // Draws the seeds first to display behind the pots
     for(let i = 0; i < plantPots.length; i++){
       if(plantPots[i].seedPlanted && plantPots[i].stage1 == true){
-        ctx.drawImage(plantPots[i].seedInPot.stage1Image, plantPots[i].xPosition+plantXOffset, plantPots[i].yPosition, xSize -50, ySize-50)
+        ctx.drawImage(plantPots[i].seedInPot.stage1Image, plantPots[i].xPosition, plantPots[i].yPosition-plantYOffset)
       }
       else if (plantPots[i].seedPlanted && plantPots[i].stage2 == true){
         ctx.drawImage(plantPots[i].seedInPot.stage2Image, plantPots[i].xPosition, plantPots[i].yPosition - plantYOffset, xSize, ySize)
@@ -164,24 +157,26 @@ function canvasUpdate() {
     else if (hotBarSlots[hotBarSlot].itemType == itemTypes[0]){
       itemSelectDisplay = itemSelectDisplay +" Seeds"
     }
+    // Draws the Wallet and shop icons
     ctx.fillStyle = 'White'
     ctx.fillRect(shopButtonPosX, 0, sideDisplayXSize, sideDisplayYSize)
-
     ctx.fillRect(shopButtonPosX, shopButtonPosY, sideDisplayXSize, sideDisplayYSize)
 
+    // Draws the wallet and shop icon text
     ctx.fillStyle = 'Black'
     ctx.font = '20px Arial'
     ctx.fillText("Wallet " + money, 675, 40)
     ctx.fillText('Shop', 700, 695)
 
+    // Draws what item is selected
     if(itemSelectDisplay != undefined){
       ctx.fillText(itemSelectDisplay, 325, 700)
     }
-
+    // Sets the shop item positions
     shopItemPosX = shopPosX + 25
       shopItemPosY = shopPosY + 25
 
-    if(shopOpen){
+    if(shopOpen){ // Draws the shop panel
       ctx.globalAlpha = 0.5
       ctx.fillStyle = 'White'
       ctx.fillRect(shopPosX, shopPosY, shopSizeX, shopSizeY)
@@ -189,27 +184,32 @@ function canvasUpdate() {
       ctx.globalAlpha = 1
       
       
-
+      // Draws the items in the shop and the price
       for(let i = 0; i < SeedPackets.length; i++){
         ctx.drawImage(SeedPackets[i].itemImage, shopItemPosX, shopItemPosY, shopItemSize, shopItemSize)
+        ctx.fillText(SeedPackets[i].price, shopItemPosX, shopItemPosY)
         
+        // Shop item collison
         if(mousePressed && shopBuyOnce){
           if(mouseEventShop.offsetX >= shopItemPosX && 
             mouseEventShop.offsetY >= shopItemPosY && 
             mouseEventShop.offsetX <= shopItemPosX + shopItemSize &&
             mouseEventShop.offsetY <= shopItemPosY + shopItemSize) // Collision code for the objects
               {
-                
-                if(!hotBarSlots[hotBarSlot].hasItem || hotBarSlots[hotBarSlot].item.itemName == SeedPackets[i].itemName && money != 0){
-                  hotBarSlots[hotBarSlot].item = SeedPackets[i]
-                  hotBarSlots[hotBarSlot].itemType = itemTypes[0]
-                  hotBarSlots[hotBarSlot].hasItem = true
-                  hotBarSlots[hotBarSlot].itemAmmount = hotBarSlots[hotBarSlot].itemAmmount + 1
-                  money = money - hotBarSlots[hotBarSlot].item.price
-                  shopBuyOnce = false
+                // Shop item buying
+                if(!hotBarSlots[hotBarSlot].hasItem || hotBarSlots[hotBarSlot].item.itemName == SeedPackets[i].itemName){
+                  if(money >= SeedPackets[i].price){
+                    hotBarSlots[hotBarSlot].item = SeedPackets[i]
+                    hotBarSlots[hotBarSlot].itemType = itemTypes[0]
+                    hotBarSlots[hotBarSlot].hasItem = true
+                    hotBarSlots[hotBarSlot].itemAmmount = hotBarSlots[hotBarSlot].itemAmmount + 1
+                    money = money - SeedPackets[i].price
+                    shopBuyOnce = false
+                  }
                 }
         }
       }
+      // Automates the shop item setup
       if(shopItemPosX <= 700){
         shopItemPosX = shopItemPosX + shopItemSpacing
       }
