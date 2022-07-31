@@ -204,7 +204,7 @@ let ySize = 100
                     hotBarSlots[i].item.itemImage = new Image;
                     hotBarSlots[i].item.itemImage.src = "images/"+hotBarSlots[i].item.itemName+"Seeds.png"
                     hotBarSlots[i].item.stage1Image = new Image;
-                    hotBarSlots[i].item.stage1Image.src = "images/seed.png"
+                    hotBarSlots[i].item.stage1Image.src = "images/Seed.png"
                     hotBarSlots[i].item.stage2Image = new Image;
                     hotBarSlots[i].item.stage2Image.src = "images/"+hotBarSlots[i].item.itemName+"Plant.png"    
                 }
